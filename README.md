@@ -1,7 +1,7 @@
 # @dgp/entity-store
 Dynamic actions and reducers for collection-based application states 
 
-@dgp/entity-store is a modest library for defining and manipulating application states in JavaScript clients 
+@dgp/entity-store is a modest library for defining and manipulating application states 
 that are composed of entity collections.
 It comes without dependencies, is field-tested, and not biased towards a particular framework.  
 
