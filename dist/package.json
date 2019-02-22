@@ -1,0 +1,12 @@
+{
+  "name": "@dgp/entity-store",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "dgp-web"
+  },
+  "scripts": {
+    "start": "tsc",
+    "test": "karma start"
+  }
+}
