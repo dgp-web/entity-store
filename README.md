@@ -1,12 +1,12 @@
-# @dgp/entity-store
+# entity-store
 Dynamic actions and reducers for collection-based application states 
 
-@dgp/entity-store is a modest library for defining and manipulating application states 
+entity-store is a modest library for defining and manipulating application states 
 that are composed of entity collections.
 It comes without dependencies, is field-tested, and not biased towards a particular framework.  
 
 ```javascript
-import { CompositeEntityAction, createEntityState, createEntityReducer } from "@dgp/entity-store";
+import { CompositeEntityAction, createEntityState, createEntityReducer } from "entity-store";
 
 // 1) Define an entity with an initial state and a dedicated reducer
 const userType = "User";      
@@ -32,7 +32,7 @@ const updatedState = usersReducer(initialUsersState, action);
 ## Getting started
 Install the package via npm
 ```
-npm install --save @dgp/entity-store
+npm install --save entity-store
 ```
 
 Store some entities! The following _Quick reference_ and the included TypeScript definitions show you how.
@@ -47,7 +47,7 @@ Use the _EntityState_ interface to declare states for each entity type you would
 like to manage in your store.
 
 ```typescript
-import { EntityState } from "@dgp/entity-store";
+import { EntityState } from "entity-store";
 
 export interface User {
     label: string;
@@ -81,7 +81,7 @@ and id "user01" to our state and to update the population of the "Location" with
 with the value 20001.
 
 ```javascript
-import { CompositeEntityAction } from "@dgp/entity-store";
+import { CompositeEntityAction } from "entity-store";
 
 const action = new CompositeEntityAction({
     add: [{
@@ -108,7 +108,7 @@ They are really easy to set up.
 Just provide an entity type to createEntityReducer.
 
 ```javascript
-import { createEntityReducer, createEntityState } from "@dgp/entity-store";
+import { createEntityReducer, createEntityState } from "entity-store";
 
 const userReducer = createEntityReducer({
     entityType: "User"
