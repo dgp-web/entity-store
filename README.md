@@ -115,3 +115,63 @@ const userReducer = createEntityReducer({
 });
 
 ```
+
+## Utilities ##
+
+entiy-store comes with some utility function that make passing data to CompositeEntityActions and 
+selecting data from state easier.
+
+### createKVSFromArray ###
+Add, Update, and Set operations in a CompositeEntityAction want a key-value store as 
+payload, so it is often necessary to map data from an array into this form.
+```
+import { createKVSFromArray } from "entity-store";
+
+const users = [{
+    id: "user01",
+    label: "Jason"
+}, {
+    id: "user02",
+    label: "Carsten"
+}];
+
+const userKVS = createKVSFromArray(users);
+```
+
+By default, ```createKVSFromArray``` assumes that the passed items have an attribute called
+'id'. You can pass a different attribute name if your id is stored in a different member.
+
+*Note: TypeScript users might want to use ```keyof``` here.*
+```
+import { createKVSFromArray, User } from "entity-store";
+
+const users = [{
+    userId: "user01",
+    label: "Jason"
+}, {
+    userId: "user02",
+    label: "Carsten"
+}];
+
+const userKVS = createKVSFromArray(users, "userId" as keyof User);
+```
+
+If the id is not expressed in a single attribute value, you can also pass a function that receives
+an item and returns a string as second argument to ```createKVSFromArray```.
+```
+import { createKVSFromArray, User } from "entity-store";
+
+const users = [{
+    userCollectionId: "myCollection",
+    userNumber: 1,
+    label: "Jason"
+}, {
+    userCollectionId: "myCollection",
+    userNumber: 2,
+    label: "Carsten"
+}];
+
+const userKVS = createKVSFromArray(
+    users, (x: User) => x.userCollectionId + x.userNumber
+);
+```
