@@ -228,3 +228,10 @@ const userState = {
 const selectedUser = getFirstSelected(userState);
 
 ```
+
+## Advanced features ##
+
+### Working with feature stores ###
+
+
+### Configuring action-type composition ###
