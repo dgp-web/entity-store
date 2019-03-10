@@ -118,7 +118,7 @@ const userReducer = createEntityReducer({
 
 ## Utilities ##
 
-entiy-store comes with some utility function that make passing data to CompositeEntityActions and 
+entity-store comes with some utility function that make passing data to CompositeEntityActions and 
 selecting data from state easier.
 
 ### createKVSFromArray ###
@@ -174,4 +174,57 @@ const users = [{
 const userKVS = createKVSFromArray(
     users, (x: User) => x.userCollectionId + x.userNumber
 );
+```
+
+### getAll ###
+Often, you want to work with your entities as arrays. When writing logic to select
+items from an entity state, you can use ```getAll``` to achieve this.
+
+```
+import { getAll } from "entity-store";
+
+const userState = {
+    ids: ["user01", "user02"],
+    entites: {
+        "user01": {
+            id: "user01",
+            label: "Jason"
+        },
+        "user02": {
+            id: "user02",
+            label: "Carsten"
+        }
+    }
+};
+
+const allUsers = getAll(userState);
+
+```
+
+### getFirstSelected ###
+A frequent use case is to mark an entity as selected. Entity store does this by
+putting its id in ```selectedIds```. ```getFirstSelected``` returns the
+entity associated with the first entry in this collection and is useful for
+modelling single selection.
+
+```
+import { getFirstSelected } from "entity-store";
+
+const userState = {
+    ids: ["user01", "user02"],
+    entites: {
+        "user01": {
+            id: "user01",
+            label: "Jason"
+        },
+        "user02": {
+            id: "user02",
+            label: "Carsten"
+        }
+    },
+    selectedIds: ["user01"]
+};
+
+const selectedUser = getFirstSelected(userState);
+
 ```
