@@ -124,7 +124,7 @@ selecting data from state easier.
 ### createKVSFromArray ###
 Add, Update, and Set operations in a CompositeEntityAction want a key-value store as 
 payload, so it is often necessary to map data from an array into this form.
-```
+```javascript
 import { createKVSFromArray } from "entity-store";
 
 const users = [{
@@ -142,7 +142,7 @@ By default, ```createKVSFromArray``` assumes that the passed items have an attri
 'id'. You can pass a different attribute name if your id is stored in a different member.
 
 *Note: TypeScript users might want to use ```keyof``` here.*
-```
+```javascript
 import { createKVSFromArray, User } from "entity-store";
 
 const users = [{
@@ -158,7 +158,7 @@ const userKVS = createKVSFromArray(users, "userId" as keyof User);
 
 If the id is not expressed in a single attribute value, you can also pass a function that receives
 an item and returns a string as second argument to ```createKVSFromArray```.
-```
+```typescript
 import { createKVSFromArray, User } from "entity-store";
 
 const users = [{
@@ -180,7 +180,7 @@ const userKVS = createKVSFromArray(
 Often, you want to work with your entities as arrays. When writing logic to select
 items from an entity state, you can use ```getAll``` to achieve this.
 
-```
+```javascript
 import { getAll } from "entity-store";
 
 const userState = {
@@ -207,7 +207,7 @@ putting its id in ```selectedIds```. ```getFirstSelected``` returns the
 entity associated with the first entry in this collection and is useful for
 modelling single selection.
 
-```
+```javascript
 import { getFirstSelected } from "entity-store";
 
 const userState = {
@@ -232,11 +232,11 @@ const selectedUser = getFirstSelected(userState);
 ## Advanced features ##
 
 ### Working with store features ###
-It is often convenient to created isolates regions in your store that are independent
+It can be convenient to isolate regions in your store that are independent
 from your main state. Those special store *features* can be used by setting the storeFeature 
 option when using ```createEntityReducer``` and ```CompositeEntityAction```.
 
-```
+```javascript
 import { createEntityReducer, CompositeEntityAction } from "entity-store";
 
 const userReducer = createEntityReducer({
@@ -255,3 +255,40 @@ const action = new CompositeEntityAction({
 ```
 
 ### Configuring action-type composition ###
+If you are not happy with how the dynamic action types are created, you can create your own
+```CompositeEntityActionConfig``` and pass it to ```createEntityReducer``` and ```CompositeEntityAction```.
+
+```typescript
+import { 
+    createEntityReducer, CompositeEntityAction, CompositeEntityActionConfig 
+} from "entity-store";
+
+const customCompositeEntityActionConfig: CompositeEntityActionConfig = {
+    prefixes: {
+        composite: "[Composite]",
+
+        add: "Add",
+        remove: "Remove",
+        select: "Select",
+        update: "Update",
+        set: "Set",
+        clear: "Clear",
+    },
+    separator: " | ",
+    spacer: " "
+};
+
+const userReducer = createEntityReducer({
+    entityType: "User"
+}, {
+    compositeEntityActionConfig: customCompositeEntityActionConfig
+});
+
+const action = new CompositeEntityAction({
+    add: [{
+        entityType: "User",
+        payload: { "user01": { id: "user01", label: "Jason" } }
+    }]
+}, customCompositeEntityActionConfig);
+
+```
