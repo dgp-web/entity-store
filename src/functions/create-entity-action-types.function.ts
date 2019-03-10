@@ -6,6 +6,12 @@ export interface CreateEntityActionTypesPayload {
     readonly storeFeature?: string;
 }
 
+/**
+ * Creates the action types that a reducer created via createEntityReducer
+ * reacts to.
+ * @param payload
+ * @param config
+ */
 export function createEntityActionTypes(
     payload: CreateEntityActionTypesPayload,
     config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig
