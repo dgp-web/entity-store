@@ -1,8 +1,8 @@
 import { Action, CreateEntityReducerConfig, defaultCreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
-import { composeEntityActionType } from "./compose-entity-action-type.function";
 import { CompositeEntityAction } from "../actions";
 import { addEntitiesReducer, removeEntitiesReducer, selectEntitiesReducer, setEntitiesReducer, updateEntitiesReducer } from "../reducers";
 import { createEntityState } from "./create-entity-state.function";
+import { createEntityActionTypes } from "./create-entity-action-types.function";
 
 export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
     readonly entityType: string;
@@ -28,12 +28,10 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
     const prefixes = config.compositeEntityActionConfig.prefixes;
     const compositeEntityActionSeparator = config.compositeEntityActionConfig.separator;
 
-    const addType = composeEntityActionType(entityType, prefixes.add, storeFeature);
-    const updateType = composeEntityActionType(entityType, prefixes.update, storeFeature);
-    const removeType = composeEntityActionType(entityType, prefixes.remove, storeFeature);
-    const selectType = composeEntityActionType(entityType, prefixes.select, storeFeature);
-    const clearType = composeEntityActionType(entityType, prefixes.clear, storeFeature);
-    const setType = composeEntityActionType(entityType, prefixes.set, storeFeature);
+    const actionTypes = createEntityActionTypes({
+        entityType: entityType,
+        storeFeature: storeFeature
+    }, config.compositeEntityActionConfig);
 
     return function reducer(state: TState = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>> = additionalReducers): TState {
 
@@ -46,31 +44,31 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
 
             const compositeAction = action as CompositeEntityAction;
 
-            if (compositeTypeSegments.some(x => x === clearType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.clearEntityActionType)) {
                 reducedState = Object.assign({}, reducedState, createEntityState());
             }
 
-            if (compositeTypeSegments.some(x => x === setType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.setEntityActionType)) {
                 const entities = compositeAction.payload.set.find(x => x.entityType === entityType).payload;
                 reducedState = setEntitiesReducer(reducedState, entities);
             }
 
-            if (compositeTypeSegments.some(x => x === addType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.addEntityActionType)) {
                 const entities = compositeAction.payload.add.find(x => x.entityType === entityType).payload;
                 reducedState = addEntitiesReducer(reducedState, entities);
             }
 
-            if (compositeTypeSegments.some(x => x === updateType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.updateEntityActionType)) {
                 const entities = compositeAction.payload.update.find(x => x.entityType === entityType).payload;
                 reducedState = updateEntitiesReducer(reducedState, entities);
             }
 
-            if (compositeTypeSegments.some(x => x === removeType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.removeEntityActionType)) {
                 const entities = compositeAction.payload.remove.find(x => x.entityType === entityType).payload;
                 reducedState = removeEntitiesReducer(reducedState, entities);
             }
 
-            if (compositeTypeSegments.some(x => x === selectType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.selectEntityActionType)) {
                 const entities = compositeAction.payload.select.find(x => x.entityType === entityType).payload;
                 reducedState = selectEntitiesReducer(reducedState, entities);
             }
