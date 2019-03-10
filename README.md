@@ -108,7 +108,7 @@ They are really easy to set up.
 Just provide an entity type to createEntityReducer.
 
 ```javascript
-import { createEntityReducer, createEntityState } from "entity-store";
+import { createEntityReducer } from "entity-store";
 
 const userReducer = createEntityReducer({
     entityType: "User"
@@ -231,7 +231,27 @@ const selectedUser = getFirstSelected(userState);
 
 ## Advanced features ##
 
-### Working with feature stores ###
+### Working with store features ###
+It is often convenient to created isolates regions in your store that are independent
+from your main state. Those special store *features* can be used by setting the storeFeature 
+option when using ```createEntityReducer``` and ```CompositeEntityAction```.
 
+```
+import { createEntityReducer, CompositeEntityAction } from "entity-store";
+
+const userReducer = createEntityReducer({
+    entityType: "User",
+    storeFeature: "UserManagement"
+});
+
+const action = new CompositeEntityAction({
+    add: [{
+        entityType: "User",
+        payload: { "user01": { id: "user01", label: "Jason" } },
+        storeFeature: "UserManagement"
+    }]
+});
+
+```
 
 ### Configuring action-type composition ###
