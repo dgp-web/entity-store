@@ -7,6 +7,7 @@ import { addEntitiesToState } from "./add-entities-to-state.function";
 import { updateEntitiesInState } from "./update-entities-in-state.function";
 import { removeEntitiesFromState } from "./remove-entities-from-state.function";
 import { selectEntitiesInState } from "./select-entities-in-state.function";
+import { clearEntityState } from "./clear-entity-state.function";
 
 export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
     readonly entityType: string;
@@ -15,16 +16,14 @@ export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<
     readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>>;
 }
 
-
-export const defaultEntityOperationConfig: EntityOperationConfig<any, EntityState<any>> = {
+export const defaultEntityOperationConfig: EntityOperationConfig<any, any> = {
     add: addEntitiesToState,
     update: updateEntitiesInState,
     remove: removeEntitiesFromState,
-    clear: (state: EntityState<any>) => Object.assign({}, state, createEntityState()),
+    clear: clearEntityState,
     select: selectEntitiesInState,
     set: setEntitiesInState
 };
-
 
 export const defaultCreateEntityReducerConfig: CreateEntityReducerConfig<any, any> = {
     compositeEntityActionConfig: defaultCompositeEntityActionConfig,
