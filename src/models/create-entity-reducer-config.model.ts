@@ -1,9 +1,7 @@
 import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "./composite-entity-action-config.model";
+import { EntityOperationConfig } from "./entity-operation-config.model";
 
-export interface CreateEntityReducerConfig {
+export interface CreateEntityReducerConfig<TEntity, TState> {
     readonly compositeEntityActionConfig: CompositeEntityActionConfig;
+    readonly entityOperationConfig: EntityOperationConfig<TEntity, TState>;
 }
-
-export const defaultCreateEntityReducerConfig: CreateEntityReducerConfig = {
-    compositeEntityActionConfig: defaultCompositeEntityActionConfig
-};

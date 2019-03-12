@@ -1,4 +1,4 @@
-import { Action, CreateEntityReducerConfig, defaultCreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
+import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, defaultCompositeEntityActionConfig, EntityOperationConfig } from "../models";
 import { CompositeEntityAction } from "../actions";
 import { createEntityState } from "./create-entity-state.function";
 import { createEntityActionTypes } from "./create-entity-action-types.function";
@@ -15,12 +15,28 @@ export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<
     readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>>;
 }
 
+
+export const defaultEntityOperationConfig: EntityOperationConfig<any, EntityState<any>> = {
+    add: addEntitiesToState,
+    update: updateEntitiesInState,
+    remove: removeEntitiesFromState,
+    clear: (state: EntityState<any>) => Object.assign({}, state, createEntityState()),
+    select: selectEntitiesInState,
+    set: setEntitiesInState
+};
+
+
+export const defaultCreateEntityReducerConfig: CreateEntityReducerConfig<any, any> = {
+    compositeEntityActionConfig: defaultCompositeEntityActionConfig,
+    entityOperationConfig: defaultEntityOperationConfig
+};
+
 /**
  * Creates a reducer for the specified entity type that reacts to basic operations (add, update, remove, select, set, and clear)
  */
 export function createEntityReducer<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes>(
     payload: CreateEntityReducerPayload<TEntity, TState, TAttributes>,
-    config: CreateEntityReducerConfig = defaultCreateEntityReducerConfig): EntityReducer<TEntity, TState, TAttributes> {
+    config: CreateEntityReducerConfig<TEntity, TState> = defaultCreateEntityReducerConfig): EntityReducer<TEntity, TState, TAttributes> {
 
     const entityType = payload.entityType;
     const storeFeature = payload.storeFeature;
@@ -49,32 +65,32 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
             const compositeAction = action as CompositeEntityAction;
 
             if (compositeTypeSegments.some(x => x === actionTypes.clearEntityActionType)) {
-                reducedState = Object.assign({}, reducedState, createEntityState());
+                reducedState = config.entityOperationConfig.clear(reducedState);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.setEntityActionType)) {
                 const entities = compositeAction.payload.set.find(x => x.entityType === entityType).payload;
-                reducedState = setEntitiesInState(reducedState, entities);
+                reducedState = config.entityOperationConfig.set(reducedState, entities);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.addEntityActionType)) {
                 const entities = compositeAction.payload.add.find(x => x.entityType === entityType).payload;
-                reducedState = addEntitiesToState(reducedState, entities);
+                reducedState = config.entityOperationConfig.add(reducedState, entities);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.updateEntityActionType)) {
                 const entities = compositeAction.payload.update.find(x => x.entityType === entityType).payload;
-                reducedState = updateEntitiesInState(reducedState, entities);
+                reducedState = config.entityOperationConfig.update(reducedState, entities);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.removeEntityActionType)) {
                 const ids = compositeAction.payload.remove.find(x => x.entityType === entityType).payload;
-                reducedState = removeEntitiesFromState(reducedState, ids);
+                reducedState = config.entityOperationConfig.remove(reducedState, ids);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.selectEntityActionType)) {
                 const ids = compositeAction.payload.select.find(x => x.entityType === entityType).payload;
-                reducedState = selectEntitiesInState(reducedState, ids);
+                reducedState = config.entityOperationConfig.select(reducedState, ids);
             }
 
         }
