@@ -68,13 +68,13 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.removeEntityActionType)) {
-                const entities = compositeAction.payload.remove.find(x => x.entityType === entityType).payload;
-                reducedState = removeEntitiesFromState(reducedState, entities);
+                const ids = compositeAction.payload.remove.find(x => x.entityType === entityType).payload;
+                reducedState = removeEntitiesFromState(reducedState, ids);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.selectEntityActionType)) {
-                const entities = compositeAction.payload.select.find(x => x.entityType === entityType).payload;
-                reducedState = selectEntitiesInState(reducedState, entities);
+                const ids = compositeAction.payload.select.find(x => x.entityType === entityType).payload;
+                reducedState = selectEntitiesInState(reducedState, ids);
             }
 
         }
