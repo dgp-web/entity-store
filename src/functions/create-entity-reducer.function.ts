@@ -1,13 +1,8 @@
-import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, defaultCompositeEntityActionConfig, EntityOperationConfig } from "../models";
+import { Action, CreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
 import { CompositeEntityAction } from "../actions";
 import { createEntityState } from "./create-entity-state.function";
 import { createEntityActionTypes } from "./create-entity-action-types.function";
-import { setEntitiesInState } from "./set-entities-in-state.function";
-import { addEntitiesToState } from "./add-entities-to-state.function";
-import { updateEntitiesInState } from "./update-entities-in-state.function";
-import { removeEntitiesFromState } from "./remove-entities-from-state.function";
-import { selectEntitiesInState } from "./select-entities-in-state.function";
-import { clearEntityState } from "./clear-entity-state.function";
+import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
 
 export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
     readonly entityType: string;
@@ -15,20 +10,6 @@ export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<
     readonly storeFeature?: string;
     readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>>;
 }
-
-export const defaultEntityOperationConfig: EntityOperationConfig<any, any> = {
-    add: addEntitiesToState,
-    update: updateEntitiesInState,
-    remove: removeEntitiesFromState,
-    clear: clearEntityState,
-    select: selectEntitiesInState,
-    set: setEntitiesInState
-};
-
-export const defaultCreateEntityReducerConfig: CreateEntityReducerConfig<any, any> = {
-    compositeEntityActionConfig: defaultCompositeEntityActionConfig,
-    entityOperationConfig: defaultEntityOperationConfig
-};
 
 /**
  * Creates a reducer for the specified entity type that reacts to basic operations (add, update, remove, select, set, and clear)
