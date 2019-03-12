@@ -1,0 +1,12 @@
+import { EntityState, KeyValueStore } from "../models";
+import { assignAttributesToState } from "./assign-attributes-to-state.function";
+
+export function setEntitiesInState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: KeyValueStore<TModel>, attributes?: TAttributes): TState {
+
+    const ids = Object.keys(payload),
+        entities = payload;
+
+    let result = Object.assign({}, state, {ids: ids, entities: entities, selectedIds: []}) as any;
+    result = assignAttributesToState(result, attributes) as TState;
+    return result;
+}

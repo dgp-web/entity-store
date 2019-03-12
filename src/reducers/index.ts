@@ -1,7 +1,7 @@
-export * from "./entities.reducer";
-export * from "./add-entities.reducer";
-export * from "./update-entities.reducer";
-export * from "./remove-entities.reducer";
-export * from "./set-entities.reducer";
+export * from "./assign-attributes-to-state.function";
+export * from "./add-entities-to-state.function";
+export * from "./update-entities-in-state.function";
+export * from "./remove-entities-from-state.function";
+export * from "./set-entities-in-state.function";
 
-export * from "./select-entities.reducer";
+export * from "./select-entities-in-state.function";

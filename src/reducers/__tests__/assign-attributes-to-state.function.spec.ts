@@ -1,8 +1,7 @@
 import { getMyEntityStateWithTwoEntities, MyEntityState } from "./test-data.spec";
-import { entitiesReducer } from "../entities.reducer";
+import { assignAttributesToState } from "../assign-attributes-to-state.function";
 
-
-describe("entitiesReducer", () => {
+describe("assignAttributesToState", () => {
 
     let state: MyEntityState;
 
@@ -12,7 +11,7 @@ describe("entitiesReducer", () => {
 
     it("should assign additional attributes to an entity state when those are passed as argument.", () => {
 
-        const result = entitiesReducer(state, {myAdditionalAttribute: "myAdditionalValue"});
+        const result = assignAttributesToState(state, {myAdditionalAttribute: "myAdditionalValue"});
         expect(result.hasOwnProperty("myAdditionalAttribute"))
             .toBeTruthy();
 

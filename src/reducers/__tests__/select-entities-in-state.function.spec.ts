@@ -1,7 +1,7 @@
 import { firstEntity, getMyEntityStateWithTwoEntities, MyEntityState } from "./test-data.spec";
-import { selectEntitiesReducer } from "../select-entities.reducer";
+import { selectEntitiesInState } from "../select-entities-in-state.function";
 
-describe("selectEntitiesReducer", () => {
+describe("selectEntitiesInState", () => {
 
     let state: MyEntityState;
 
@@ -11,7 +11,7 @@ describe("selectEntitiesReducer", () => {
 
     it("should select the entities whose id is contained in the payload.", () => {
 
-        const result = selectEntitiesReducer(state, [ firstEntity.id ]);
+        const result = selectEntitiesInState(state, [ firstEntity.id ]);
         expect(result.selectedIds).toEqual([firstEntity.id]);
 
     });

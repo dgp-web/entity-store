@@ -1,8 +1,8 @@
 import { KeyValueStore } from "../../models";
 import { getMyEntityStateWithTwoEntities, MyEntity, MyEntityState, secondEntity } from "./test-data.spec";
-import { updateEntitiesReducer } from "../update-entities.reducer";
+import { updateEntitiesInState } from "../update-entities-in-state.function";
 
-describe("updateEntitiesReducer", () => {
+describe("updateEntitiesInState", () => {
 
     let state: MyEntityState;
 
@@ -14,7 +14,7 @@ describe("updateEntitiesReducer", () => {
 
         const payload: KeyValueStore<Partial<MyEntity>> = { [secondEntity.id]: { myAttribute: "I am the new value of second entity." } };
 
-        const result = updateEntitiesReducer(state, payload);
+        const result = updateEntitiesInState(state, payload);
         expect(result.entities[secondEntity.id].myAttribute).toEqual("I am the new value of second entity.");
 
 

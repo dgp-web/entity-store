@@ -1,7 +1,7 @@
 import { EntityState, KeyValueStore } from "../models";
-import { entitiesReducer } from "./entities.reducer";
+import { assignAttributesToState } from "./assign-attributes-to-state.function";
 
-export function addEntitiesReducer<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: KeyValueStore<TModel>, attributes?: TAttributes): TState {
+export function addEntitiesToState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: KeyValueStore<TModel>, attributes?: TAttributes): TState {
 
     const newEntities = payload,
         newIds = Object.keys(newEntities),
@@ -9,6 +9,6 @@ export function addEntitiesReducer<TModel, TState extends EntityState<TModel> & 
         entities = Object.assign({}, state.entities, newEntities);
 
     let result =  Object.assign({}, state, { ids: ids, entities: entities, selectedIds: state.selectedIds }) as TState;
-    result = entitiesReducer(result, attributes) as TState;
+    result = assignAttributesToState(result, attributes) as TState;
     return result;
 }

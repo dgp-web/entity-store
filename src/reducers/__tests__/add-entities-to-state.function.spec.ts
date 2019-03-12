@@ -1,8 +1,8 @@
 import { KeyValueStore } from "../../models";
-import { addEntitiesReducer } from "../add-entities.reducer";
+import { addEntitiesToState } from "../add-entities-to-state.function";
 import { getMyEntityStateWithTwoEntities, MyEntity, MyEntityState, secondEntity, thirdEntity } from "./test-data.spec";
 
-describe("addEntitiesReducer", () => {
+describe("addEntitiesToState", () => {
 
     let state: MyEntityState;
 
@@ -14,7 +14,7 @@ describe("addEntitiesReducer", () => {
 
         const payload: KeyValueStore<MyEntity> = { [thirdEntity.id]: thirdEntity };
 
-        const result = addEntitiesReducer(state, payload);
+        const result = addEntitiesToState(state, payload);
         expect(result.ids.length).toEqual(3);
         expect(result.ids).toContain("3");
         expect(result.entities["3"]).toEqual({   id: "3", myAttribute: "I am the third entity."});
@@ -25,7 +25,7 @@ describe("addEntitiesReducer", () => {
 
         const payload: KeyValueStore<MyEntity> = { [secondEntity.id]: null };
 
-        const result = addEntitiesReducer(state, payload);
+        const result = addEntitiesToState(state, payload);
         expect(result.ids).toEqual(state.ids);
         expect(result.entities[secondEntity.id]).toEqual(null);
 

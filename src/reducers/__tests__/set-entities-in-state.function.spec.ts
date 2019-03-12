@@ -1,8 +1,8 @@
 import { EntityState, KeyValueStore } from "../../models";
 import { getMyEntityStateWithTwoEntities, MyEntity, secondEntity } from "./test-data.spec";
-import { setEntitiesReducer } from "../set-entities.reducer";
+import { setEntitiesInState } from "../set-entities-in-state.function";
 
-describe("setEntitiesReducer", () => {
+describe("setEntitiesInState", () => {
 
     let state: EntityState<any>;
 
@@ -14,7 +14,7 @@ describe("setEntitiesReducer", () => {
 
         const payload: KeyValueStore<Partial<MyEntity>> = { [secondEntity.id]: secondEntity };
 
-        const result = setEntitiesReducer(state, payload);
+        const result = setEntitiesInState(state, payload);
         expect(result.ids[0]).toBe(secondEntity.id);
         expect(result.entities[secondEntity.id]).toBe(secondEntity);
 

@@ -1,7 +1,7 @@
 import { Entity, EntityState } from "../../models";
 import { createEntityState } from "../../functions";
-import { addEntitiesReducer } from "../add-entities.reducer";
-import { selectEntitiesReducer } from "../select-entities.reducer";
+import { addEntitiesToState } from "../add-entities-to-state.function";
+import { selectEntitiesInState } from "../select-entities-in-state.function";
 
 export interface MyEntity extends Entity {
     myAttribute: string;
@@ -31,7 +31,7 @@ export function getMyEntityStateWithTwoEntities(payload?: {
 }): MyEntityState {
 
     let state = createEntityState() as MyEntityState;
-    state = addEntitiesReducer(state, {
+    state = addEntitiesToState(state, {
         [firstEntity.id]: firstEntity,
         [secondEntity.id]: secondEntity,
     });
@@ -39,7 +39,7 @@ export function getMyEntityStateWithTwoEntities(payload?: {
     if (payload) {
         if (payload.selectedIds) {
 
-            state = selectEntitiesReducer(state, payload.selectedIds);
+            state = selectEntitiesInState(state, payload.selectedIds);
         }
     }
 
