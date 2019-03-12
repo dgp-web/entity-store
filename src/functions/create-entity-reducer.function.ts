@@ -1,9 +1,12 @@
 import { Action, CreateEntityReducerConfig, defaultCreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
 import { CompositeEntityAction } from "../actions";
-import { addEntitiesToState, removeEntitiesFromState, selectEntitiesInState, setEntitiesInState, updateEntitiesInState } from "../reducers";
 import { createEntityState } from "./create-entity-state.function";
 import { createEntityActionTypes } from "./create-entity-action-types.function";
-import { Reducer } from "src/models/reducer.model";
+import { setEntitiesInState } from "./set-entities-in-state.function";
+import { addEntitiesToState } from "./add-entities-to-state.function";
+import { updateEntitiesInState } from "./update-entities-in-state.function";
+import { removeEntitiesFromState } from "./remove-entities-from-state.function";
+import { selectEntitiesInState } from "./select-entities-in-state.function";
 
 export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
     readonly entityType: string;

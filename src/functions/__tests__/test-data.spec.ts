@@ -1,5 +1,5 @@
 import { Entity, EntityState } from "../../models";
-import { createEntityState } from "../../functions";
+import { createEntityState } from "../create-entity-state.function";
 import { addEntitiesToState } from "../add-entities-to-state.function";
 import { selectEntitiesInState } from "../select-entities-in-state.function";
 
