@@ -1,6 +1,6 @@
 import { KVS } from "./key-value-store.model";
 
-export interface EntityOperationConfig<TEntity, TState> {
+export interface EntityStateTransformationConfig<TEntity, TState> {
     readonly add: (state: TState, payload: KVS<TEntity>) => TState;
     readonly update: (state: TState, payload: KVS<Partial<TEntity>>) => TState;
     readonly remove: (state: TState, payload: ReadonlyArray<string>) => TState;

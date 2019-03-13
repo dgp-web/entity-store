@@ -1,6 +1,6 @@
 import { createEntityActionType } from "../create-entity-action-type.function";
 
-describe("composeEntityActionType", () => {
+describe("createEntityActionType", () => {
 
     it("should wrap the given entity name in square brackets.", () => {
         const type = createEntityActionType("Example", "Add");

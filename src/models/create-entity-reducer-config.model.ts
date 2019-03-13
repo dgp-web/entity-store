@@ -1,7 +1,7 @@
 import { CompositeEntityActionConfig } from "./composite-entity-action-config.model";
-import { EntityOperationConfig } from "./entity-operation-config.model";
+import { EntityStateTransformationConfig } from "./entity-state-transformation-config.model";
 
 export interface CreateEntityReducerConfig<TEntity, TState> {
     readonly compositeEntityActionConfig: CompositeEntityActionConfig;
-    readonly entityOperationConfig: EntityOperationConfig<TEntity, TState>;
+    readonly entityStateTransformationConfig: EntityStateTransformationConfig<TEntity, TState>;
 }

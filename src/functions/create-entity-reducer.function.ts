@@ -45,32 +45,32 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
             const compositeAction = action as CompositeEntityAction;
 
             if (compositeTypeSegments.some(x => x === actionTypes.clearEntityActionType)) {
-                reducedState = config.entityOperationConfig.clear(reducedState);
+                reducedState = config.entityStateTransformationConfig.clear(reducedState);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.setEntityActionType)) {
                 const entities = compositeAction.payload.set.find(x => x.entityType === entityType).payload;
-                reducedState = config.entityOperationConfig.set(reducedState, entities);
+                reducedState = config.entityStateTransformationConfig.set(reducedState, entities);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.addEntityActionType)) {
                 const entities = compositeAction.payload.add.find(x => x.entityType === entityType).payload;
-                reducedState = config.entityOperationConfig.add(reducedState, entities);
+                reducedState = config.entityStateTransformationConfig.add(reducedState, entities);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.updateEntityActionType)) {
                 const entities = compositeAction.payload.update.find(x => x.entityType === entityType).payload;
-                reducedState = config.entityOperationConfig.update(reducedState, entities);
+                reducedState = config.entityStateTransformationConfig.update(reducedState, entities);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.removeEntityActionType)) {
                 const ids = compositeAction.payload.remove.find(x => x.entityType === entityType).payload;
-                reducedState = config.entityOperationConfig.remove(reducedState, ids);
+                reducedState = config.entityStateTransformationConfig.remove(reducedState, ids);
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.selectEntityActionType)) {
                 const ids = compositeAction.payload.select.find(x => x.entityType === entityType).payload;
-                reducedState = config.entityOperationConfig.select(reducedState, ids);
+                reducedState = config.entityStateTransformationConfig.select(reducedState, ids);
             }
 
         }
