@@ -1,4 +1,4 @@
-import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../models";
+import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../../models";
 
 /**
  * Parses the type of a CompositeEntityAction into an array

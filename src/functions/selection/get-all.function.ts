@@ -1,4 +1,4 @@
-import { EntityState } from "../models";
+import { EntityState } from "../../models";
 
 /**
  * Returns all entities in a given entity state

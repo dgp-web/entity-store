@@ -1,4 +1,4 @@
-import { CompositeEntityActionConfig, EntityActionParams } from "../models";
+import { CompositeEntityActionConfig, EntityActionParams } from "../../models";
 import { createEntityActionType } from "./create-entity-action-type.function";
 
 export function createActionTypeSegmentsForSuffix(actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams>, config: CompositeEntityActionConfig): string {

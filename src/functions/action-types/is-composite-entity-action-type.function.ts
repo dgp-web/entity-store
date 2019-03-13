@@ -1,4 +1,4 @@
-import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../models";
+import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../../models";
 
 /**
  * Returns whether a given actionType is a CompositeEntityAction

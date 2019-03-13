@@ -1,4 +1,4 @@
-import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig, EntityActionTypes } from "../models";
+import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig, EntityActionTypes } from "../../models";
 import { createEntityActionType } from "./create-entity-action-type.function";
 
 export interface CreateEntityActionTypesPayload {

@@ -1,11 +1,9 @@
-import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../models";
+import { Action, CreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
 import { CompositeEntityAction } from "../actions";
 import { createEntityState } from "./create-entity-state.function";
-import { createEntityActionTypes } from "./create-entity-action-types.function";
+import { createEntityActionTypes } from "./action-types/create-entity-action-types.function";
 import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
-import { isCompositeEntityActionType } from "./is-composite-entity-action-type.function";
-import { parseCompositeEntityActionType } from "./parse-composite-entity-action-type.function";
-import { isEntityTypeIncludedInActionType } from "./is-entity-type-included-in-action-type.function";
+import { parseCompositeEntityActionType, isEntityTypeIncludedInActionType, isCompositeEntityActionType } from "./action-types";
 
 export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
     readonly entityType: string;

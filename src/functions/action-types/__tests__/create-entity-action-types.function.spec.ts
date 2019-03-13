@@ -1,5 +1,5 @@
 import { createEntityActionTypes, CreateEntityActionTypesPayload } from "../create-entity-action-types.function";
-import { defaultCompositeEntityActionConfig, EntityActionTypes } from "../../models";
+import { defaultCompositeEntityActionConfig, EntityActionTypes } from "../../../models";
 import { createEntityActionType } from "../create-entity-action-type.function";
 
 describe("createEntityActionTypes", () => {
