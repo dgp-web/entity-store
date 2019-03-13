@@ -1,5 +1,5 @@
 import { CompositeEntityActionPayload, CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../../models";
-import { createActionTypeSegmentsForSuffix } from "./create-action-type-segments-for-suffix.function";
+import { createEntityActionTypesForSuffix } from "./create-entity-action-type-for-suffix.function";
 
 export function createCompositeEntityActionType(
     payload: CompositeEntityActionPayload,
@@ -7,12 +7,12 @@ export function createCompositeEntityActionType(
 ): string {
     let type = config.prefixes.composite + config.spacer;
 
-    type += createActionTypeSegmentsForSuffix(config.prefixes.add, payload.add, config);
-    type += createActionTypeSegmentsForSuffix(config.prefixes.update, payload.update, config);
-    type += createActionTypeSegmentsForSuffix(config.prefixes.remove, payload.remove, config);
-    type += createActionTypeSegmentsForSuffix(config.prefixes.select, payload.select, config);
-    type += createActionTypeSegmentsForSuffix(config.prefixes.clear, payload.clear, config);
-    type += createActionTypeSegmentsForSuffix(config.prefixes.set, payload.set, config);
+    type += createEntityActionTypesForSuffix(config.prefixes.add, payload.add, config);
+    type += createEntityActionTypesForSuffix(config.prefixes.update, payload.update, config);
+    type += createEntityActionTypesForSuffix(config.prefixes.remove, payload.remove, config);
+    type += createEntityActionTypesForSuffix(config.prefixes.select, payload.select, config);
+    type += createEntityActionTypesForSuffix(config.prefixes.clear, payload.clear, config);
+    type += createEntityActionTypesForSuffix(config.prefixes.set, payload.set, config);
 
     if (type.endsWith(" | ")) {
         type = type.substring(0, type.length - 3);
