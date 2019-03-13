@@ -2,8 +2,8 @@ import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from 
 
 /**
  * Returns whether a given actionType is a CompositeEntityAction
- * @param actionType
- * @param config 
+ * @param {string} actionType
+ * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
  */
 export function isCompositeEntityActionType(
     actionType: string, 
