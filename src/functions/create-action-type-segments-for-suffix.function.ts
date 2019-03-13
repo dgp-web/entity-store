@@ -1,5 +1,5 @@
 import { CompositeEntityActionConfig, EntityActionParams } from "../models";
-import { composeEntityActionType } from "./compose-entity-action-type.function";
+import { createEntityActionType } from "./create-entity-action-type.function";
 
 export function createActionTypeSegmentsForSuffix(actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams>, config: CompositeEntityActionConfig): string {
 
@@ -7,7 +7,7 @@ export function createActionTypeSegmentsForSuffix(actionTypeSuffix: string, enti
 
     if (entities) {
         entities.forEach(entity => {
-            result += composeEntityActionType(entity.entityType, actionTypeSuffix, entity.storeFeature) + config.separator;
+            result += createEntityActionType(entity.entityType, actionTypeSuffix, entity.storeFeature) + config.separator;
         })
     } else {
 

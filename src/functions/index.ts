@@ -1,4 +1,4 @@
-export * from "./compose-entity-action-type.function";
+export * from "./create-entity-action-type.function";
 export * from "./create-action-type-segments-for-suffix.function";
 export * from "./create-entity-action-types.function";
 export * from "./create-entity-reducer.function";
