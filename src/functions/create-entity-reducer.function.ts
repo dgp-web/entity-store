@@ -1,8 +1,11 @@
-import { Action, CreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
+import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../models";
 import { CompositeEntityAction } from "../actions";
 import { createEntityState } from "./create-entity-state.function";
 import { createEntityActionTypes } from "./create-entity-action-types.function";
 import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
+import { isCompositeEntityActionType } from "./is-composite-entity-action-type.function";
+import { parseCompositeEntityActionType } from "./parse-composite-entity-action-type.function";
+import { isEntityTypeIncludedInActionType } from "./is-entity-type-included-in-action-type.function";
 
 export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
     readonly entityType: string;
@@ -25,8 +28,6 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
         initialState = createEntityState<TEntity, TState>();
     }
     const additionalReducers = payload.additionalReducers;
-    const prefixes = config.compositeEntityActionConfig.prefixes;
-    const compositeEntityActionSeparator = config.compositeEntityActionConfig.separator;
 
     const actionTypes = createEntityActionTypes({
         entityType: entityType,
@@ -36,11 +37,12 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
     return function reducer(state: TState = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>> = additionalReducers): TState {
 
         let reducedState: TState = state;
-        if (action.type.includes(prefixes.composite) && action.type.includes(entityType)) {
+        if (isCompositeEntityActionType(action.type, config.compositeEntityActionConfig) && isEntityTypeIncludedInActionType({
+            actionType: action.type,
+            entityType: entityType
+        })) {
 
-            const compositeTypeSegments = action.type
-                .replace(prefixes.composite + config.compositeEntityActionConfig.spacer, "")
-                .split(compositeEntityActionSeparator);
+            const compositeTypeSegments = parseCompositeEntityActionType(action.type, config.compositeEntityActionConfig);
 
             const compositeAction = action as CompositeEntityAction;
 

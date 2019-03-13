@@ -7,6 +7,9 @@ export * from "./create-kvs-from-array.function";
 export * from "./default-create-entity-reducer-config.model";
 export * from "./get-all.function";
 export * from "./get-first-selected.function";
+export * from "./is-composite-entity-action-type.function";
+export * from "./is-entity-type-included-in-action-type.function";
+export * from "./parse-composite-entity-action-type.function";
 
 export * from "./add-entities-to-state.function";
 export * from "./update-entities-in-state.function";
