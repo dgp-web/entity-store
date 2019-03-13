@@ -1,4 +1,4 @@
-import { EntityState, KeyValueStore } from "../models";
+import { EntityState, KeyValueStore } from "../../models";
 
 export function setEntitiesInState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: KeyValueStore<TModel>): TState {
 

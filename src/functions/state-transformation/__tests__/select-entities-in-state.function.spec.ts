@@ -1,4 +1,4 @@
-import { firstEntity, getMyEntityStateWithTwoEntities, MyEntityState } from "./test-data.spec";
+import { firstEntity, getMyEntityStateWithTwoEntities, MyEntityState } from "../../__tests__/test-data.spec";
 import { selectEntitiesInState } from "../select-entities-in-state.function";
 
 describe("selectEntitiesInState", () => {

@@ -1,7 +1,6 @@
 import { Entity, EntityState } from "../../models";
 import { createEntityState } from "../create-entity-state.function";
-import { addEntitiesToState } from "../add-entities-to-state.function";
-import { selectEntitiesInState } from "../select-entities-in-state.function";
+import { addEntitiesToState, selectEntitiesInState } from "../state-transformation";
 
 export interface MyEntity extends Entity {
     myAttribute: string;

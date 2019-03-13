@@ -11,9 +11,4 @@ export * from "./is-composite-entity-action-type.function";
 export * from "./is-entity-type-included-in-action-type.function";
 export * from "./parse-composite-entity-action-type.function";
 
-export * from "./add-entities-to-state.function";
-export * from "./update-entities-in-state.function";
-export * from "./remove-entities-from-state.function";
-export * from "./set-entities-in-state.function";
-export * from "./select-entities-in-state.function";
-export * from "./clear-entity-state.function";
+export * from "./state-transformation";

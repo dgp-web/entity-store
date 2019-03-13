@@ -1,5 +1,5 @@
-import { KeyValueStore } from "../../models";
-import { getMyEntityStateWithTwoEntities, MyEntity, MyEntityState, secondEntity } from "./test-data.spec";
+import { KeyValueStore } from "../../../models";
+import { getMyEntityStateWithTwoEntities, MyEntity, MyEntityState, secondEntity } from "../../__tests__/test-data.spec";
 import { updateEntitiesInState } from "../update-entities-in-state.function";
 
 describe("updateEntitiesInState", () => {

@@ -1,4 +1,4 @@
-import { EntityState } from "../models";
+import { EntityState } from "../../models";
 
 export function removeEntitiesFromState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: ReadonlyArray<string>): TState {
 
