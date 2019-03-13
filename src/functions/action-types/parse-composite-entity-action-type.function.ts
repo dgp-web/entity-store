@@ -3,8 +3,8 @@ import { CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from 
 /**
  * Parses the type of a CompositeEntityAction into an array
  * of entity-action types
- * @param actionType 
- * @param config 
+ * @param {string} actionType 
+ * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig] 
  */
 export function parseCompositeEntityActionType(
     actionType: string, 
@@ -12,5 +12,5 @@ export function parseCompositeEntityActionType(
     ): ReadonlyArray<string> {
     return actionType
         .replace(config.prefixes.composite + config.spacer, "")
-        .split(config.separator)
+        .split(config.separator);
 }
