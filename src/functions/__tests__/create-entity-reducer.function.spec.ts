@@ -10,7 +10,6 @@ interface MyEntityState extends EntityState<MyEntity> {
     myAdditionalStateAttribute: string;
 }
 
-
 describe("createEntityReducer" + " should create a reducer that", () => {
 
     let reducer: EntityReducer<MyEntity, MyEntityState>;
@@ -174,10 +173,6 @@ describe("createEntityReducer" + " should create a reducer that", () => {
 
         expect(reducedState)
             .toEqual(expectedState);
-    });
-
-    xit("should respect the passed CompositeEntityActionConfig.", () => {
-        
     });
 
 });
