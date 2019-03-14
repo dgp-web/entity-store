@@ -9,7 +9,8 @@ import { isNullOrUndefined } from "util";
  * Useful when using the entity
  * store for selection models.
  *
- * @param state
+ * @param {EntityState<T>} state
+ * @returns {T}
  */
 export function getFirstSelected<T>(state: EntityState<T>): T {
     const firstSelected = state.selectedIds.map(id => state.entities[id])[0];
