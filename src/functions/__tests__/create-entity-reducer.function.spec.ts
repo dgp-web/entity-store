@@ -176,5 +176,8 @@ describe("createEntityReducer" + " should create a reducer that", () => {
             .toEqual(expectedState);
     });
 
+    xit("should respect the passed CompositeEntityActionConfig.", () => {
+        
+    });
 
 });

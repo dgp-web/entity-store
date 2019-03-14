@@ -50,6 +50,10 @@ describe("CompositeEntityAction", () => {
 
         expect(action.type.split(" | ").length).toBe(6);
 
-    })
+    });
+
+    xit("should respect the passed CompositeEntityActionConfig.", () => {
+        
+    });
 
 });

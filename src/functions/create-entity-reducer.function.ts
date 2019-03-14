@@ -4,8 +4,14 @@ import { createEntityState } from "./create-entity-state.function";
 import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
 import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIncludedInActionType, isCompositeEntityActionType } from "./action-types";
 
+/**
+ * The payload for createEntityReducer
+ */
 export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity>> {
     readonly entityType: string;
+    /**
+     * @default createEntityState()
+     */
     readonly initialState?: TState;
     readonly storeFeature?: string;
     readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState>>;
@@ -13,6 +19,8 @@ export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<
 
 /**
  * Creates a reducer for the specified entity type that reacts to basic operations (add, update, remove, select, set, and clear)
+ * @param {CreateEntityReducerPayload<TEntity, TState>} payload
+ * @param {CreateEntityReducerConfig<TEntity, TState>} payload
  */
 export function createEntityReducer<TEntity, TState extends EntityState<TEntity>>(
     payload: CreateEntityReducerPayload<TEntity, TState>,
