@@ -1,26 +1,33 @@
-import { Action, CreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
+import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, CreateEntityReducerPayload } from "../models";
 import { CompositeEntityAction } from "../actions";
 import { createEntityState } from "./create-entity-state.function";
 import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
 import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIncludedInActionType, isCompositeEntityActionType } from "./action-types";
 
 /**
- * The payload for createEntityReducer
- */
-export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity>> {
-    readonly entityType: string;
-    /**
-     * @default createEntityState()
-     */
-    readonly initialState?: TState;
-    readonly storeFeature?: string;
-    readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState>>;
-}
-
-/**
- * Creates a reducer for the specified entity type that reacts to basic operations (add, update, remove, select, set, and clear)
+ * Creates a reducer for the specified entity type that reacts to basic operations 
+ * (add, update, remove, select, set, and clear)
  * @param {CreateEntityReducerPayload<TEntity, TState>} payload
  * @param {CreateEntityReducerConfig<TEntity, TState>} payload
+ * 
+ * @returns {EntityReducer<TEntity, TState>}
+ * 
+ * @example
+ * // Create an entity reducer
+ * import { createEntityReducer } from "entity-store";
+ * 
+ * const userReducer = createEntityReducer({ 
+ *      entityType: "User" 
+ * });
+ * 
+ * @example
+ * // Create an entity reducer in a store feature
+ * import { createEntityReducer } from "entity-store";
+ * 
+ * const userReducer = createEntityReducer({ 
+ *      entityType: "Location", 
+ *      storeFeature: "LocationManager" 
+ * });
  */
 export function createEntityReducer<TEntity, TState extends EntityState<TEntity>>(
     payload: CreateEntityReducerPayload<TEntity, TState>,

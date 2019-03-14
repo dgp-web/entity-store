@@ -2,6 +2,9 @@ import { EntityState } from "../models";
 
 /**
  * Creates an empty entity state
+ * 
+ * Usually you don't have to call this yourself
+ * 
  * @param {any} attributes Additional attributes you want your state to have
  * @returns {TState}
  */
