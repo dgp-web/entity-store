@@ -1,4 +1,5 @@
 import { createEntityActionTypesForSuffix } from "../create-entity-action-type-for-suffix.function";
+import { EntityStoreTestData } from "../../__tests__/test-data.spec";
 
 describe("createEntityActionTypesForSuffix", () => {
 
@@ -18,7 +19,22 @@ describe("createEntityActionTypesForSuffix", () => {
 
     });
 
-    xit("should respect the passed CompositeEntityActionConfig.", () => {
+    it("should respect the passed CompositeEntityActionConfig.", () => {
+
+        const config = EntityStoreTestData.customCompositeEntityActionConfig;
+
+        const result = createEntityActionTypesForSuffix(
+            config.prefixes.add, 
+            [{
+                entityType: "User"
+            }, {
+                entityType: "Location"
+            }],
+            config
+        );
+
+        
+        expect(result).toBe("[User] ADD_/_[Location] ADD_/_");
 
     });
 

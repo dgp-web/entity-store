@@ -1,4 +1,5 @@
 import { createCompositeEntityActionType } from "../create-composite-entity-action-type.function";
+import { EntityStoreTestData } from "../../__tests__/test-data.spec";
 
 describe("createCompositeEntityActionType", () => {
 
@@ -19,7 +20,22 @@ describe("createCompositeEntityActionType", () => {
 
     });
 
-    xit("should respect the passed CompositeEntityActionConfig.", () => {
+    it("should respect the passed CompositeEntityActionConfig.", () => {
+
+        const config = EntityStoreTestData.customCompositeEntityActionConfig;
+
+        const result = createCompositeEntityActionType({
+            add: [{
+                entityType: "User",
+                payload: {}
+            }],
+            remove: [{
+                entityType: "Location",
+                payload: []
+            }]
+        }, config);
+
+        expect(result).toBe("MyCompositeType_[User] ADD_/_[Location] REMOVE");
 
     });
 
