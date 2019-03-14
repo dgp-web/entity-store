@@ -13,7 +13,7 @@ interface MyEntityState extends EntityState<MyEntity> {
 
 describe("createEntityReducer" + " should create a reducer that", () => {
 
-    let reducer: EntityReducer<MyEntity, MyEntityState, { myAdditionalStateAttribute: string }>;
+    let reducer: EntityReducer<MyEntity, MyEntityState>;
     let initialState: MyEntityState;
 
     let firstEntity: MyEntity;
@@ -29,7 +29,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
             myAdditionalStateAttribute: ""
         });
 
-        reducer = createEntityReducer<MyEntity, MyEntityState, { myAdditionalStateAttribute: string }>({
+        reducer = createEntityReducer<MyEntity, MyEntityState>({
             entityType: "MyEntity",
             initialState: initialState,
             storeFeature: "MyStoreFeature",
@@ -55,7 +55,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
 
     it("should react to additional reducers passed to createEntityReducer.", () => {
 
-        const additionalReducer: EntityReducer<MyEntity, MyEntityState, { myAdditionalStateAttribute: string }> = (state: MyEntityState, action: Action): MyEntityState => {
+        const additionalReducer: EntityReducer<MyEntity, MyEntityState> = (state: MyEntityState, action: Action): MyEntityState => {
 
             if (action.type === "MyAdditionalAction") {
 
@@ -67,7 +67,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
 
         };
 
-        reducer = createEntityReducer<MyEntity, MyEntityState, { myAdditionalStateAttribute: string }>({
+        reducer = createEntityReducer<MyEntity, MyEntityState>({
             entityType: "MyEntity",
             initialState: initialState,
             storeFeature: "MyStoreFeature",

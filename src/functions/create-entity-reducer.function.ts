@@ -4,19 +4,19 @@ import { createEntityState } from "./create-entity-state.function";
 import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
 import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIncludedInActionType, isCompositeEntityActionType } from "./action-types";
 
-export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
+export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity>> {
     readonly entityType: string;
     readonly initialState?: TState;
     readonly storeFeature?: string;
-    readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>>;
+    readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState>>;
 }
 
 /**
  * Creates a reducer for the specified entity type that reacts to basic operations (add, update, remove, select, set, and clear)
  */
-export function createEntityReducer<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes>(
-    payload: CreateEntityReducerPayload<TEntity, TState, TAttributes>,
-    config: CreateEntityReducerConfig<TEntity, TState> = defaultCreateEntityReducerConfig): EntityReducer<TEntity, TState, TAttributes> {
+export function createEntityReducer<TEntity, TState extends EntityState<TEntity>>(
+    payload: CreateEntityReducerPayload<TEntity, TState>,
+    config: CreateEntityReducerConfig<TEntity, TState> = defaultCreateEntityReducerConfig): EntityReducer<TEntity, TState> {
 
     const entityType = payload.entityType;
     const storeFeature = payload.storeFeature;
@@ -31,7 +31,7 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
         storeFeature: storeFeature
     }, config.compositeEntityActionConfig);
 
-    return function reducer(state: TState = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>> = additionalReducers): TState {
+    return function reducer(state: TState = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, TState>> = additionalReducers): TState {
 
         let reducedState: TState = state;
         if (isCompositeEntityActionType(action.type, config.compositeEntityActionConfig) && isEntityTypeIncludedInActionType({
