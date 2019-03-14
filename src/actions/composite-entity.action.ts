@@ -39,7 +39,7 @@ export class CompositeEntityAction implements Action {
      * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
      */
     constructor(public readonly payload: CompositeEntityActionPayload,
-                private config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig) {
+                readonly config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig) {
         this.type = createCompositeEntityActionType(payload, config);
     }
 }
