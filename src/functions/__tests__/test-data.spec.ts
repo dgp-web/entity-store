@@ -1,4 +1,4 @@
-import { Entity, EntityState } from "../../models";
+import { Entity, EntityState, CompositeEntityActionConfig } from "../../models";
 import { createEntityState } from "../create-entity-state.function";
 import { addEntitiesToState, selectEntitiesInState } from "../state-transformation";
 
@@ -43,4 +43,24 @@ export function getMyEntityStateWithTwoEntities(payload?: {
     }
 
     return state;
+}
+
+export class EntityStoreTestData {
+
+    static readonly customCompositeEntityActionConfig: CompositeEntityActionConfig = {
+       
+        prefixes: {
+            composite: "MyCompositeType",
+            add: "ADD",
+            clear: "CLEAR",
+            remove: "REMOVE",
+            select: "SELECT",
+            set: "SET",
+            update: "UPDATE"
+        },
+        separator: "_/_",
+        spacer: "_"
+        
+    };
+
 }

@@ -19,7 +19,7 @@ export function createCompositeEntityActionType(
     type += createEntityActionTypesForSuffix(config.prefixes.clear, payload.clear, config);
     type += createEntityActionTypesForSuffix(config.prefixes.set, payload.set, config);
 
-    if (type.endsWith(" | ")) {
+    if (type.endsWith(config.separator)) {
         type = type.substring(0, type.length - 3);
     }
 

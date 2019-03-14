@@ -1,6 +1,7 @@
 import { isCompositeEntityActionType } from "../is-composite-entity-action-type.function";
 import { CompositeEntityAction } from "../../../actions";
 import { Action } from "../../../models";
+import { EntityStoreTestData } from "../../__tests__/test-data.spec";
 
 describe("isCompositeEntityActionType", () => {
 
@@ -17,7 +18,14 @@ describe("isCompositeEntityActionType", () => {
         expect(result).toBeFalsy();
     });
 
-    xit("should respect the passed CompositeEntityActionConfig.", () => {
+    it("should respect the passed CompositeEntityActionConfig.", () => {
+
+        const config = EntityStoreTestData.customCompositeEntityActionConfig;
+        let action: Action = new CompositeEntityAction({}, config);
+        
+        let result = isCompositeEntityActionType(action.type,config);
+
+        expect(result).toBeTruthy();
 
     });
 
