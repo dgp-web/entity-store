@@ -1,22 +1,37 @@
-import { Action, CreateEntityReducerConfig, defaultCreateEntityReducerConfig, EntityReducer, EntityState } from "../models";
-import { composeEntityActionType } from "./compose-entity-action-type.function";
+import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, CreateEntityReducerPayload } from "../models";
 import { CompositeEntityAction } from "../actions";
-import { addEntitiesReducer, removeEntitiesReducer, selectEntitiesReducer, setEntitiesReducer, updateEntitiesReducer } from "../reducers";
 import { createEntityState } from "./create-entity-state.function";
-
-export interface CreateEntityReducerPayload<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes> {
-    readonly entityType: string;
-    readonly initialState?: TState;
-    readonly storeFeature?: string;
-    readonly additionalReducers?: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>>;
-}
+import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
+import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIncludedInActionType, isCompositeEntityActionType } from "./action-types";
 
 /**
- * Creates a reducer for the specified entity type that reacts to basic operations (add, update, remove, select, set, and clear)
+ * Creates a reducer for the specified entity type that reacts to basic operations 
+ * (add, update, remove, select, set, and clear)
+ * @param {CreateEntityReducerPayload<TEntity, TState>} payload
+ * @param {CreateEntityReducerConfig<TEntity, TState>} payload
+ * 
+ * @returns {EntityReducer<TEntity, TState>}
+ * 
+ * @example
+ * // Create an entity reducer
+ * import { createEntityReducer } from "entity-store";
+ * 
+ * const userReducer = createEntityReducer({ 
+ *      entityType: "User" 
+ * });
+ * 
+ * @example
+ * // Create an entity reducer in a store feature
+ * import { createEntityReducer } from "entity-store";
+ * 
+ * const userReducer = createEntityReducer({ 
+ *      entityType: "Location", 
+ *      storeFeature: "LocationManager" 
+ * });
  */
-export function createEntityReducer<TEntity, TState extends EntityState<TEntity> & TAttributes, TAttributes>(
-    payload: CreateEntityReducerPayload<TEntity, TState, TAttributes>,
-    config: CreateEntityReducerConfig = defaultCreateEntityReducerConfig): EntityReducer<TEntity, TState, TAttributes> {
+export function createEntityReducer<TEntity, TState extends EntityState<TEntity>>(
+    payload: CreateEntityReducerPayload<TEntity, TState>,
+    config: CreateEntityReducerConfig<TEntity, TState> = defaultCreateEntityReducerConfig): EntityReducer<TEntity, TState> {
 
     const entityType = payload.entityType;
     const storeFeature = payload.storeFeature;
@@ -25,54 +40,51 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
         initialState = createEntityState<TEntity, TState>();
     }
     const additionalReducers = payload.additionalReducers;
-    const prefixes = config.compositeEntityActionConfig.prefixes;
-    const compositeEntityActionSeparator = config.compositeEntityActionConfig.separator;
 
-    const addType = composeEntityActionType(entityType, prefixes.add, storeFeature);
-    const updateType = composeEntityActionType(entityType, prefixes.update, storeFeature);
-    const removeType = composeEntityActionType(entityType, prefixes.remove, storeFeature);
-    const selectType = composeEntityActionType(entityType, prefixes.select, storeFeature);
-    const clearType = composeEntityActionType(entityType, prefixes.clear, storeFeature);
-    const setType = composeEntityActionType(entityType, prefixes.set, storeFeature);
+    const actionTypes = createEntityActionTypes({
+        entityType: entityType,
+        storeFeature: storeFeature
+    }, config.compositeEntityActionConfig);
 
-    return function reducer(state: TState = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, TState, TAttributes>> = additionalReducers): TState {
+    return function reducer(state: TState = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, TState>> = additionalReducers): TState {
 
         let reducedState: TState = state;
-        if (action.type.includes(prefixes.composite) && action.type.includes(entityType)) {
+        if (isCompositeEntityActionType(action.type, config.compositeEntityActionConfig) && isEntityTypeIncludedInActionType({
+            actionType: action.type,
+            entityType: entityType
+        })) {
 
-            const compositeTypeSegments = action.type
-                .replace(prefixes.composite + config.compositeEntityActionConfig.spacer, "")
-                .split(compositeEntityActionSeparator);
+            const compositeTypeSegments = parseCompositeEntityActionType(action.type, config.compositeEntityActionConfig);
 
             const compositeAction = action as CompositeEntityAction;
 
-            if (compositeTypeSegments.some(x => x === clearType)) {
-                reducedState = Object.assign({}, reducedState, createEntityState());
+            if (compositeTypeSegments.some(x => x === actionTypes.clearEntityActionType)) {
+                reducedState = config.entityStateTransformationConfig.clear(reducedState);
             }
 
-            if (compositeTypeSegments.some(x => x === setType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.setEntityActionType)) {
                 const entities = compositeAction.payload.set.find(x => x.entityType === entityType).payload;
-                reducedState = setEntitiesReducer(reducedState, entities);
+                reducedState = config.entityStateTransformationConfig.set(reducedState, entities);
             }
 
-            if (compositeTypeSegments.some(x => x === addType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.addEntityActionType)) {
                 const entities = compositeAction.payload.add.find(x => x.entityType === entityType).payload;
-                reducedState = addEntitiesReducer(reducedState, entities);
+                reducedState = config.entityStateTransformationConfig.add(reducedState, entities);
             }
 
-            if (compositeTypeSegments.some(x => x === updateType)) {
+            if (compositeTypeSegments.some(x => x === actionTypes.updateEntityActionType)) {
                 const entities = compositeAction.payload.update.find(x => x.entityType === entityType).payload;
-                reducedState = updateEntitiesReducer(reducedState, entities);
+                reducedState = config.entityStateTransformationConfig.update(reducedState, entities);
             }
 
-            if (compositeTypeSegments.some(x => x === removeType)) {
-                const entities = compositeAction.payload.remove.find(x => x.entityType === entityType).payload;
-                reducedState = removeEntitiesReducer(reducedState, entities);
+            if (compositeTypeSegments.some(x => x === actionTypes.removeEntityActionType)) {
+                const ids = compositeAction.payload.remove.find(x => x.entityType === entityType).payload;
+                reducedState = config.entityStateTransformationConfig.remove(reducedState, ids);
             }
 
-            if (compositeTypeSegments.some(x => x === selectType)) {
-                const entities = compositeAction.payload.select.find(x => x.entityType === entityType).payload;
-                reducedState = selectEntitiesReducer(reducedState, entities);
+            if (compositeTypeSegments.some(x => x === actionTypes.selectEntityActionType)) {
+                const ids = compositeAction.payload.select.find(x => x.entityType === entityType).payload;
+                reducedState = config.entityStateTransformationConfig.select(reducedState, ids);
             }
 
         }

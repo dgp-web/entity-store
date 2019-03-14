@@ -14,7 +14,7 @@
     "clean-dist": "rimraf dist/src dist/README.md",
     "copy-assets-to-dist": "cpx README.md dist && cpx LICENSE dist",
     "prebuild": "npm run clean-dist && npm run copy-assets-to-dist",
-    "build": "tsc",
+    "build": "tsc --project tsconfig.dist.json",
     "test": "karma start"
   },
   "private": false,

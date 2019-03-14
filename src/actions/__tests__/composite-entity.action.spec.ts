@@ -1,4 +1,5 @@
 import { CompositeEntityAction } from "../composite-entity.action";
+import { EntityStoreTestData } from "../../functions/__tests__/test-data.spec";
 
 describe("CompositeEntityAction", () => {
 
@@ -50,6 +51,23 @@ describe("CompositeEntityAction", () => {
 
         expect(action.type.split(" | ").length).toBe(6);
 
-    })
+    });
+
+    it("should respect the passed CompositeEntityActionConfig.", () => {
+        
+        const config = EntityStoreTestData.customCompositeEntityActionConfig;
+
+        const action = new CompositeEntityAction({
+            add: [{ entityType: "Example", payload: {} }],
+            update: [{ entityType: "Example", payload: {} }],
+            remove: [{ entityType: "Example", payload: [] }],
+            clear: [{ entityType: "Example" }],
+            select: [{ entityType: "Example", payload: [] }],
+            set: [{ entityType: "Example", payload: {} }],
+        }, config);
+
+        expect(action.type).toBe("MyCompositeType_[Example] ADD_/_[Example] UPDATE_/_[Example] REMOVE_/_[Example] SELECT_/_[Example] CLEAR_/_[Example] SET");
+        
+    });
 
 });
