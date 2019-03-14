@@ -1,7 +1,15 @@
-import { CompositeEntityActionConfig, EntityActionParams } from "../../models";
+import { CompositeEntityActionConfig, EntityActionParams, defaultCompositeEntityActionConfig } from "../../models";
 import { createEntityActionType } from "./create-entity-action-type.function";
 
-export function createEntityActionTypesForSuffix(actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams>, config: CompositeEntityActionConfig): string {
+/**
+ * Creates entity-action types for a specific entity action
+ * @param {string} actionTypeSuffix 
+ * @param {ReadonlyArray<EntityActionParams>} entities 
+ * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig] 
+ */
+export function createEntityActionTypesForSuffix(
+    actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams>, 
+    config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig): string {
 
     let result = "";
 
