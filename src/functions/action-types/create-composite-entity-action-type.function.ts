@@ -1,6 +1,11 @@
 import { CompositeEntityActionPayload, CompositeEntityActionConfig, defaultCompositeEntityActionConfig } from "../../models";
 import { createEntityActionTypesForSuffix } from "./create-entity-action-type-for-suffix.function";
 
+/**
+ * Creates an action type from a CompositeEntityActionPayload 
+ * @param {CompositeEntityActionPayload} payload 
+ * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
+ */
 export function createCompositeEntityActionType(
     payload: CompositeEntityActionPayload,
     config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig
