@@ -1,3 +1,6 @@
+/**
+ * Logic for creating and processing types for actions
+ */
 export * from "./create-entity-action-type-for-suffix.function";
 export * from "./create-composite-entity-action-type.function";
 export * from "./create-entity-action-type.function";

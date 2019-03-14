@@ -31,7 +31,7 @@ describe("createEntityActionTypes", () => {
 
     });
 
-    xit("should respect the passed config.", () => {
+    xit("should respect the passed CompositeEntityActionConfig.", () => {
 
     });
 

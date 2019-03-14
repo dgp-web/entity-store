@@ -18,4 +18,8 @@ describe("createEntityActionTypesForSuffix", () => {
 
     });
 
+    xit("should respect the passed CompositeEntityActionConfig.", () => {
+
+    });
+
 });

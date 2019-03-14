@@ -17,4 +17,8 @@ describe("isCompositeEntityActionType", () => {
         expect(result).toBeFalsy();
     });
 
+    xit("should respect the passed CompositeEntityActionConfig.", () => {
+
+    });
+
 });

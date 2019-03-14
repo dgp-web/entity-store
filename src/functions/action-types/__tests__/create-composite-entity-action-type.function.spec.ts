@@ -19,4 +19,8 @@ describe("createCompositeEntityActionType", () => {
 
     });
 
+    xit("should respect the passed CompositeEntityActionConfig.", () => {
+
+    });
+
 });

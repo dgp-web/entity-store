@@ -22,4 +22,8 @@ describe("parseCompositeEntityActionType", () => {
 
     });
 
+    xit("should respect the passed CompositeEntityActionConfig.", () => {
+
+    });
+
 });
