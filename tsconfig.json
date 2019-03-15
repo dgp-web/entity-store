@@ -15,10 +15,9 @@
   },
   "include": [
     "src/**/*.ts",
-    "index.ts"
+    "index.ts", "src/reducers/select-entities-in-state.function"
   ],
   "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts"
+    "node_modules"
   ]
 }

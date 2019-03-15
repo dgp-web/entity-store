@@ -1,6 +1,8 @@
 import { createEntityReducer, createEntityState } from "..";
 import { Action, Entity, EntityReducer, EntityState } from "../../models";
 import { CompositeEntityAction } from "../../actions";
+import { EntityStoreTestData } from "./test-data.spec";
+import { defaultCreateEntityReducerConfig } from "../default-create-entity-reducer-config.model";
 
 interface MyEntity extends Entity {
     myAttribute: string;
@@ -10,12 +12,13 @@ interface MyEntityState extends EntityState<MyEntity> {
     myAdditionalStateAttribute: string;
 }
 
-describe("createEntityReducer" + " should create a reducer that", () => {
+describe("createEntityReducer with custom config" + " should create a reducer that", () => {
 
     let reducer: EntityReducer<MyEntity, MyEntityState>;
     let initialState: MyEntityState;
 
     let firstEntity: MyEntity;
+    const config = EntityStoreTestData.customCompositeEntityActionConfig;
 
     beforeEach(() => {
 
@@ -32,6 +35,9 @@ describe("createEntityReducer" + " should create a reducer that", () => {
             entityType: "MyEntity",
             initialState: initialState,
             storeFeature: "MyStoreFeature",
+        }, {
+            compositeEntityActionConfig: config,
+            entityStateTransformationConfig: defaultCreateEntityReducerConfig.entityStateTransformationConfig
         });
 
     });
@@ -44,7 +50,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
                     [firstEntity.id]: firstEntity
                 }
             }]
-        });
+        }, config);
 
         const reducedState = reducer(initialState, action);
         expect(reducedState.ids)
@@ -71,6 +77,9 @@ describe("createEntityReducer" + " should create a reducer that", () => {
             initialState: initialState,
             storeFeature: "MyStoreFeature",
             additionalReducers: [additionalReducer]
+        }, {
+            compositeEntityActionConfig: config,
+            entityStateTransformationConfig: defaultCreateEntityReducerConfig.entityStateTransformationConfig
         });
 
         const action: Action = {type: "MyAdditionalAction"};
@@ -82,7 +91,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
 
     it("should return the unmodified state in the composite-action branch when it doesn't match any action types.", () => {
 
-        const action = new CompositeEntityAction({});
+        const action = new CompositeEntityAction({}, config);
         const reducedState = reducer(initialState, action);
 
         expect(reducedState)
@@ -104,7 +113,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
                 entityType: "MyEntity",
                 storeFeature: "MyStoreFeature"
             }]
-        });
+        }, config);
 
         const reducedState = reducer(initialState, action);
 
@@ -136,7 +145,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
                 storeFeature: "MyStoreFeature",
                 payload: [firstEntity.id]
             }]
-        });
+        }, config);
 
         const reducedState = reducer(initialState, action);
 
@@ -160,7 +169,7 @@ describe("createEntityReducer" + " should create a reducer that", () => {
                 entityType: "MyEntity",
                 storeFeature: "MyStoreFeature"
             }]
-        });
+        }, config);
 
         const reducedState = reducer(initialState, action);
 

@@ -2,7 +2,10 @@ import { EntityState } from "../models";
 
 /**
  * Creates an empty entity state
- * @param attributes Additional attributes you want your state to have
+ * 
+ * Usually you don't have to call this yourself
+ * 
+ * @param {any} attributes Additional attributes you want your state to have
  * @returns {TState}
  */
 export function createEntityState<TModel, TState extends EntityState<TModel> = EntityState<TModel>>(
