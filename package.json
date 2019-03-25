@@ -7,8 +7,11 @@
     "email": "dgb-web@outlook.de"
   },
   "keywords": [
-    "Redux",
-    "Entity"
+    "redux",
+    "entity",
+    "state",
+    "store",
+    "reducer"
   ],
   "scripts": {
     "clean-dist": "rimraf dist/src dist/README.md",
