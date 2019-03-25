@@ -6,6 +6,13 @@
   "author": {
     "name": "dgp-web"
   },
+  "keywords": [
+    "redux",
+    "entity",
+    "state",
+    "store",
+    "reducer"
+  ],
   "private": false,
   "repository": {
     "type": "git",
