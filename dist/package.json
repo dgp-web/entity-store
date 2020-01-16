@@ -1,6 +1,6 @@
 {
   "name": "entity-store",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "Dynamic actions and reducers for collection-based application states",
   "author": {
@@ -13,9 +13,12 @@
     "store",
     "reducer"
   ],
-  "private": false,
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/dgp-web/entity-store"
+  },
+  "peerDependencies": {
+    "reselect": "^4.0.0"
   }
 }

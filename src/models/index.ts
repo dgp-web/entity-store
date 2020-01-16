@@ -8,5 +8,6 @@ export * from "./entity-action-params.model";
 export * from "./entity-action-types.model";
 export * from "./entity-state-transformation-config.model";
 export * from "./entity-reducer.model";
+export * from "./entity-selectors.model";
 export * from "./entity-state.model";
 export * from "./key-value-store.model";
