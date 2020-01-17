@@ -14,4 +14,6 @@ export * from "./entity-selectors.model";
 export * from "./entity-state.model";
 export * from "./entity-state-map.model";
 export * from "./entity-store.model";
+export * from "./entity-type-map.model";
 export * from "./key-value-store.model";
+export * from "./selector.model";

@@ -14,8 +14,8 @@ import { getAll, getFirstSelected } from "./selection";
  *     stateSelector: getUserState
  * });
  */
-export function createEntitySelectors<TModel, TState extends EntityState<TModel> = EntityState<TModel>>(payload: {
-    readonly stateSelector: (appState: any) => TState;
+export function createEntitySelectors<TModel>(payload: {
+    readonly stateSelector: (appState: any) => EntityState<TModel>;
 }): EntitySelectors<TModel> {
 
     return {
