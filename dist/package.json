@@ -17,8 +17,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/dgp-web/entity-store"
-  },
-  "peerDependencies": {
-    "reselect": "^4.0.0"
   }
 }
