@@ -1,11 +1,11 @@
-import { Selector } from "reselect";
+import { Selector } from "./selector.model";
 import { EntityState } from "./entity-state.model";
 import { KVS } from "./key-value-store.model";
 
-export interface EntitySelectors<TModel, TState extends EntityState<TModel> = EntityState<TModel>> {
-    readonly getIds: Selector<TState, ReadonlyArray<string>>
-    readonly getEntities: Selector<TState, KVS<TModel>>
-    readonly getAll: Selector<TState, ReadonlyArray<TModel>>;
-    readonly getFirstSelected: Selector<TState, TModel>;
-    readonly isEntitySelected: Selector<TState, boolean>;
+export interface EntitySelectors<TModel> {
+    readonly getIds: Selector<EntityState<TModel>, ReadonlyArray<string>>;
+    readonly getEntities: Selector<EntityState<TModel>, KVS<TModel>>;
+    readonly getAll: Selector<EntityState<TModel>, ReadonlyArray<TModel>>;
+    readonly getFirstSelected: Selector<EntityState<TModel>, TModel>;
+    readonly isEntitySelected: Selector<EntityState<TModel>, boolean>;
 }

@@ -20,9 +20,7 @@
     "build": "tsc --project tsconfig.dist.json",
     "test": "karma start"
   },
-  "dependencies": {
-    "reselect": "^4.0.0"
-  },
+  "dependencies": {},
   "private": false,
   "devDependencies": {
     "@types/jasmine": "^3.3.9",
