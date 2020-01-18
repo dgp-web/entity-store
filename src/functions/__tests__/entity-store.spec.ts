@@ -20,3 +20,9 @@ const appState: AppState = null;
 const testType = "test";
 
 const store = createEntityStore<AppStoreSchema>({entityTypes: [testType]});
+
+
+/**
+ * It would be interesting to have
+ *
+ */
