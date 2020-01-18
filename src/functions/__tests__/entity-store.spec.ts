@@ -1,6 +1,5 @@
 import {EntityStateMap} from "../../models";
 import {createEntityStore} from "../create-entity-store.function";
-import {composeEntityActions} from "../../actions";
 
 interface TestModel {
     readonly label: string;
@@ -22,7 +21,7 @@ const testType = "test";
 
 const store = createEntityStore<AppStoreSchema>({entityTypes: [testType]});
 
-const action = composeEntityActions<AppStoreSchema>({
+const action = store.actions.composeEntityActions({
     add: [{
         entityType: "test",
         payload: {
