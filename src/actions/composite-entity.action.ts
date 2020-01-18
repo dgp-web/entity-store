@@ -1,14 +1,19 @@
-import { Action, CompositeEntityActionConfig, defaultCompositeEntityActionConfig, CompositeEntityActionPayload } from "../models";
-import { createCompositeEntityActionType } from "../functions";
+import {
+    Action,
+    CompositeEntityActionConfig,
+    defaultCompositeEntityActionConfig,
+    CompositeEntityActionPayload, EntityTypeMap
+} from "../models";
+import {createCompositeEntityActionType} from "../functions";
 
 /**
  * Performs add, update, remove, clear, and select operations in all target reducers
- * 
+ *
  * @example
  * import { CompositeEntityAction } from "entity-store";
- * 
+ *
  * // Action that adds user Jason to store and updates
- * // the location01's label 
+ * // the location01's label
  * const action = new CompositeEntityAction({
  *     add: [{
  *         entityType: "User",
@@ -30,7 +35,7 @@ import { createCompositeEntityActionType } from "../functions";
  *     }]
  * });
  */
-export class CompositeEntityAction implements Action {
+export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = {}> implements Action {
     readonly type: string;
 
     /**
@@ -38,8 +43,8 @@ export class CompositeEntityAction implements Action {
      * @param {CompositeEntityActionPayload} payload
      * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
      */
-    constructor(public readonly payload: CompositeEntityActionPayload,
+    constructor(public readonly payload: CompositeEntityActionPayload<TEntityTypeMap>,
                 readonly config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig) {
-        this.type = createCompositeEntityActionType(payload, config);
+        this.type = createCompositeEntityActionType(payload as any, config);
     }
 }
