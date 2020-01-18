@@ -35,7 +35,7 @@ import {createCompositeEntityActionType} from "../functions";
  *     }]
  * });
  */
-export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = {}> implements Action {
+export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = { [key: string]: any }> implements Action {
     readonly type: string;
 
     /**

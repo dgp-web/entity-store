@@ -7,7 +7,7 @@ import {
 } from "../models";
 import {createCompositeEntityActionType} from "./action-types";
 
-export function composeEntityActions<TEntityTypeMap extends EntityTypeMap>(
+export function composeEntityActions<TEntityTypeMap extends EntityTypeMap = { [key: string]: any }>(
     payload: CompositeEntityActionPayload<TEntityTypeMap>,
     config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig
 ): ComposedEntityActions<TEntityTypeMap> {

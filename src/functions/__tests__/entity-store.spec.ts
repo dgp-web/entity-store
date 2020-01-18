@@ -1,5 +1,7 @@
 import {EntityStateMap} from "../../models";
 import {createEntityStore} from "../create-entity-store.function";
+import {composeEntityActions} from "../compose-entity-actions.function";
+import {CompositeEntityAction} from "../../actions";
 
 interface TestModel {
     readonly label: string;
