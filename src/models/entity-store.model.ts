@@ -5,12 +5,12 @@ import {CompositeEntityActionPayload} from "./composite-entity-action-payload.mo
 import {CompositeEntityActionConfig} from "./composite-entity-action-config.model";
 import {ComposedEntityActions} from "./composed-entity-actions.model";
 
-export interface EntityStore<TEntityTypeMap extends EntityTypeMap> {
+export interface EntityStore<TEntityTypeMap extends EntityTypeMap, TStoreFeature = string> {
     readonly reducers: EntityReducerMap<EntityStateMap<TEntityTypeMap>, TEntityTypeMap>;
     readonly actions: {
         composeEntityActions: (
-            payload: CompositeEntityActionPayload<TEntityTypeMap>,
+            payload: CompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
             config?: CompositeEntityActionConfig
-        ) => ComposedEntityActions<TEntityTypeMap>
+        ) => ComposedEntityActions<TEntityTypeMap, TStoreFeature>
     }
 }

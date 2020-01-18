@@ -35,7 +35,7 @@ import {createCompositeEntityActionType} from "../functions";
  *     }]
  * });
  */
-export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = { [key: string]: any }> implements Action {
+export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = { [key: string]: any }, TStoreFeature = string> implements Action {
     readonly type: string;
 
     /**
@@ -43,7 +43,7 @@ export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = { [key
      * @param {CompositeEntityActionPayload} payload
      * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
      */
-    constructor(public readonly payload: CompositeEntityActionPayload<TEntityTypeMap>,
+    constructor(public readonly payload: CompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
                 readonly config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig) {
         this.type = createCompositeEntityActionType(payload as any, config);
     }
