@@ -17,20 +17,3 @@ export function createEntityStore<TEntityTypeMap extends EntityTypeMap>(payload:
 
 }
 
-/*
-export interface TestModel {
-    readonly label: string;
-}
-
-export interface TestStoreSchema {
-    readonly tests: TestModel;
-}
-
-export interface AppState extends EntityStateMap<TestStoreSchema> {
-
-}
-
-const testType = "tests";
-
-const store = createEntityStore<TestStoreSchema>({entityTypes: [testType]});
-*/
