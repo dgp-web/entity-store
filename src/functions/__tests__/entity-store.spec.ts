@@ -22,8 +22,9 @@ const appState: AppState = null;
 const testType = "test";
 type MyStoreFeature = "myStoreFeature";
 
-const store = createEntityStore<AppStoreSchema, MyStoreFeature>({
-    entityTypes: [testType]
+const store = createEntityStore<AppStoreSchema, "abc">({
+    entityTypes: [testType],
+    storeFeature: "abc"
 });
 
 const action = store.actions.composeEntityActions({
@@ -33,7 +34,8 @@ const action = store.actions.composeEntityActions({
             "testId01": {
                 label: "Bier"
             }
-        }
+        },
+        storeFeature: "abc"
     }]
 });
 

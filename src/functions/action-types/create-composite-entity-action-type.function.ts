@@ -7,7 +7,7 @@ import { createEntityActionTypesForSuffix } from "./create-entity-action-type-fo
  * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
  */
 export function createCompositeEntityActionType(
-    payload: CompositeEntityActionPayload<{}>,
+    payload: CompositeEntityActionPayload<{}, string>,
     config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig
 ): string {
     let type = config.prefixes.composite + config.spacer;
