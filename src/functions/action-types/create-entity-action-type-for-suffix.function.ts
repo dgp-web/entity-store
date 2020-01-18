@@ -8,7 +8,7 @@ import { createEntityActionType } from "./create-entity-action-type.function";
  * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig] 
  */
 export function createEntityActionTypesForSuffix(
-    actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams>, 
+    actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams<{}>>,
     config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig): string {
 
     let result = "";

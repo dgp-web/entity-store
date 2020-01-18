@@ -1,3 +1,4 @@
+export * from "./compose-entity-actions.function";
 export * from "./create-entity-reducer.function";
 export * from "./create-entity-reducers.function";
 // export * from "./create-entity-selectors.function";

@@ -1,4 +1,5 @@
 export * from "./action.model";
+export * from "./composed-entity-actions.model";
 export * from "./composite-entity-action-config.model";
 export * from "./composite-entity-action-payload.model";
 export * from "./create-entity-reducer-config.model";
