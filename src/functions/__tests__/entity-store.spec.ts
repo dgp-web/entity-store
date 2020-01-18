@@ -1,7 +1,7 @@
-import {EntityStateMap} from "../../models";
-import {createEntityStore} from "../create-entity-store.function";
-import {composeEntityActions} from "../compose-entity-actions.function";
-import {CompositeEntityAction} from "../../actions";
+import { EntityStateMap } from "../../models";
+import { createEntityStore } from "../create-entity-store.function";
+import { composeEntityActions } from "../compose-entity-actions.function";
+import { CompositeEntityAction } from "../../actions";
 
 interface TestModel {
     readonly label: string;
@@ -20,8 +20,12 @@ interface AppState extends EntityStateMap<AppStoreSchema> {
 const appState: AppState = null;
 
 const testType = "test";
+type MyStoreFeature = "myStoreFeature";
 
-const store = createEntityStore<AppStoreSchema>({entityTypes: [testType]});
+const store = createEntityStore<AppStoreSchema, "abc">({
+    entityTypes: [testType],
+    storeFeature: "abc"
+});
 
 const action = store.actions.composeEntityActions({
     add: [{
@@ -30,7 +34,8 @@ const action = store.actions.composeEntityActions({
             "testId01": {
                 label: "Bier"
             }
-        }
+        },
+        storeFeature: "abc"
     }]
 });
 
