@@ -11,6 +11,7 @@ export * from "./entity-state-transformation-config.model";
 export * from "./entity-reducer.model";
 export * from "./entity-reducer-map.model";
 export * from "./entity-selectors.model";
+export * from "./entity-selector-map.model";
 export * from "./entity-state.model";
 export * from "./entity-state-map.model";
 export * from "./entity-store.model";
