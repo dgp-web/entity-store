@@ -1,6 +1,6 @@
 {
   "name": "entity-store",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "license": "MIT",
   "description": "Dynamic actions and reducers for collection-based application states",
   "author": {
