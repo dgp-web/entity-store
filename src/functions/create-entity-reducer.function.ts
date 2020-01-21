@@ -63,8 +63,24 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.setEntityActionType)) {
-                const entities = compositeAction.payload.set.find(x => x.entityType === entityType).payload;
-                reducedState = config.entityStateTransformationConfig.set(reducedState, entities);
+
+                // TODO: Exchange
+                if (Array.isArray(compositeAction.payload.set)) {
+                    const entities = compositeAction.payload.set.find(x => x.entityType === entityType).payload;
+                    reducedState = config.entityStateTransformationConfig.set(reducedState, entities);
+                } else {
+                    const entities = Object.keys(compositeAction.payload.set)
+                        .map(entityType => {
+                            return {
+                                entityType,
+                                ...compositeAction.payload.set[entityType]
+                            }
+                        })
+                        .find(x => x.entityType === entityType).payload;
+                    reducedState = config.entityStateTransformationConfig.set(reducedState, entities);
+                }
+
+
             }
 
             if (compositeTypeSegments.some(x => x === actionTypes.addEntityActionType)) {
