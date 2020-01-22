@@ -2,9 +2,10 @@ import {
     Action,
     CompositeEntityActionConfig,
     defaultCompositeEntityActionConfig,
-    CompositeEntityActionPayload, EntityTypeMap
+    CompositeEntityActionPayload, EntityTypeMap, NormalizedCompositeEntityActionPayload
 } from "../models";
 import {createCompositeEntityActionType} from "../functions";
+import {normalizeCompositeEntityActionPayload} from "../functions/normalize-composite-entity-action-payload.function";
 
 /**
  * Performs add, update, remove, clear, and select operations in all target reducers
@@ -37,14 +38,16 @@ import {createCompositeEntityActionType} from "../functions";
  */
 export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = { [key: string]: any }, TStoreFeature = string> implements Action {
     readonly type: string;
+    readonly payload: NormalizedCompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>;
 
     /**
      * A collection of entity-action payloads
      * @param {CompositeEntityActionPayload} payload
      * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
      */
-    constructor(public readonly payload: CompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
+    constructor(payload: CompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
                 readonly config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig) {
-        this.type = createCompositeEntityActionType(payload as any, config);
+        this.payload = normalizeCompositeEntityActionPayload(payload);
+        this.type = createCompositeEntityActionType<TEntityTypeMap, TStoreFeature>(this.payload, config);
     }
 }

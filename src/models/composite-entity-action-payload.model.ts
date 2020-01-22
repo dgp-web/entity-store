@@ -48,6 +48,15 @@ export type SetEntityActionParamsMap<TEntityTypeMap extends EntityTypeMap, TStor
     readonly [K in keyof TEntityTypeMap]?: KeyValueStore<TEntityTypeMap[K]>;
 }
 
+export interface NormalizedCompositeEntityActionPayload<TEntityTypeMap extends EntityTypeMap, TStoreFeature> {
+    readonly add?: ReadonlyArray<AddEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly update?: ReadonlyArray<UpdateEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly remove?: ReadonlyArray<RemoveEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly clear?: ReadonlyArray<ClearEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly select?: ReadonlyArray<SelectEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly set?: ReadonlyArray<SetEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+}
+
 export interface CompositeEntityActionPayload<TEntityTypeMap extends EntityTypeMap, TStoreFeature> {
     readonly add?: ReadonlyArray<AddEntityActionParams<TEntityTypeMap, TStoreFeature>>;
     readonly update?: ReadonlyArray<UpdateEntityActionParams<TEntityTypeMap, TStoreFeature>>;
