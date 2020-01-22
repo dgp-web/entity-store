@@ -1,7 +1,7 @@
 import {
     ComposedEntityActions,
     CompositeEntityActionConfig,
-    CompositeEntityActionPayload,
+    CompositeEntityActionPayloadWithStoreFeature,
     defaultCompositeEntityActionConfig,
     EntityTypeMap
 } from "../models";
@@ -9,11 +9,12 @@ import {createCompositeEntityActionType} from "./action-types";
 import {normalizeCompositeEntityActionPayload} from "./normalize-composite-entity-action-payload.function";
 
 export function composeEntityActions<TEntityTypeMap extends EntityTypeMap = { [key: string]: any }, TStoreFeature = string>(
-    payload: CompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
+    payload: CompositeEntityActionPayloadWithStoreFeature<TEntityTypeMap, TStoreFeature>,
     config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig
 ): ComposedEntityActions<TEntityTypeMap, TStoreFeature> {
+    const normalizedPayload =  normalizeCompositeEntityActionPayload(payload);
     return {
-        payload: normalizeCompositeEntityActionPayload(payload),
-        type: createCompositeEntityActionType(payload as any, config)
+        payload: normalizedPayload,
+        type: createCompositeEntityActionType(normalizedPayload, config)
     };
 }
