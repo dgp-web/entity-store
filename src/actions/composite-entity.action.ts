@@ -2,7 +2,7 @@ import {
     Action,
     CompositeEntityActionConfig,
     defaultCompositeEntityActionConfig,
-    CompositeEntityActionPayload, EntityTypeMap
+    EntityTypeMap, NormalizedCompositeEntityActionPayload
 } from "../models";
 import {createCompositeEntityActionType} from "../functions";
 
@@ -40,11 +40,9 @@ export class CompositeEntityAction<TEntityTypeMap extends EntityTypeMap = { [key
 
     /**
      * A collection of entity-action payloads
-     * @param {CompositeEntityActionPayload} payload
-     * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig]
      */
-    constructor(public readonly payload: CompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
+    constructor(public readonly payload: NormalizedCompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
                 readonly config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig) {
-        this.type = createCompositeEntityActionType(payload as any, config);
+        this.type = createCompositeEntityActionType<TEntityTypeMap, TStoreFeature>(this.payload, config);
     }
 }

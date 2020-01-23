@@ -1,6 +1,6 @@
 import { EntityActionParams } from "./entity-action-params.model";
 import { KeyValueStore } from "./key-value-store.model";
-import {EntityTypeMap} from "./entity-type-map.model";
+import { EntityTypeMap } from "./entity-type-map.model";
 
 /**
  * Adds a kvs of entities to the reducer identified by the type argument
@@ -43,11 +43,80 @@ export interface SetEntityActionParams<TEntityTypeMap extends EntityTypeMap, TSt
     readonly payload: KeyValueStore<TEntityTypeMap[keyof TEntityTypeMap]>;
 }
 
-export interface CompositeEntityActionPayload<TEntityTypeMap extends EntityTypeMap, TStoreFeature> {
-    readonly add?: ReadonlyArray<AddEntityActionParams<TEntityTypeMap, TStoreFeature>>,
-    readonly update?: ReadonlyArray<UpdateEntityActionParams<TEntityTypeMap, TStoreFeature>>,
-    readonly remove?: ReadonlyArray<RemoveEntityActionParams<TEntityTypeMap, TStoreFeature>>,
-    readonly clear?: ReadonlyArray<ClearEntityActionParams<TEntityTypeMap, TStoreFeature>>,
-    readonly select?: ReadonlyArray<SelectEntityActionParams<TEntityTypeMap, TStoreFeature>>,
-    readonly set?: ReadonlyArray<SetEntityActionParams<TEntityTypeMap, TStoreFeature>>
+export type AddEntityActionParamsMap<TEntityTypeMap extends EntityTypeMap, TStoreFeature> = {
+    readonly [K in keyof TEntityTypeMap]?: KeyValueStore<TEntityTypeMap[K]>;
 }
+
+export type UpdateEntityActionParamsMap<TEntityTypeMap extends EntityTypeMap, TStoreFeature> = {
+    readonly [K in keyof TEntityTypeMap]?: KeyValueStore<Partial<TEntityTypeMap[K]>>;
+}
+
+export type SetEntityActionParamsMap<TEntityTypeMap extends EntityTypeMap, TStoreFeature> = {
+    readonly [K in keyof TEntityTypeMap]?: KeyValueStore<TEntityTypeMap[K]>;
+}
+
+export type RemoveEntityActionParamsMap<TEntityTypeMap extends EntityTypeMap, TStoreFeature> = {
+    readonly [K in keyof TEntityTypeMap]?: ReadonlyArray<string>;
+}
+
+export type SelectEntityActionParamsMap<TEntityTypeMap extends EntityTypeMap, TStoreFeature> = {
+    readonly [K in keyof TEntityTypeMap]?: ReadonlyArray<string>;
+}
+
+export type ClearEntityActionParamsList<TEntityTypeMap extends EntityTypeMap, TStoreFeature> = ReadonlyArray<keyof TEntityTypeMap>;
+
+export interface NormalizedCompositeEntityActionPayload<TEntityTypeMap extends EntityTypeMap, TStoreFeature> {
+    readonly add?: ReadonlyArray<AddEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly update?: ReadonlyArray<UpdateEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly remove?: ReadonlyArray<RemoveEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly clear?: ReadonlyArray<ClearEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly select?: ReadonlyArray<SelectEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+    readonly set?: ReadonlyArray<SetEntityActionParams<TEntityTypeMap, TStoreFeature>>;
+}
+
+export interface CompositeEntityActionPayload<TEntityTypeMap extends EntityTypeMap, TStoreFeature> {
+    readonly add?: ReadonlyArray<AddEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | AddEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly update?: ReadonlyArray<UpdateEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | UpdateEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly remove?: ReadonlyArray<RemoveEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | RemoveEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly clear?: ReadonlyArray<ClearEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | ClearEntityActionParamsList<TEntityTypeMap, TStoreFeature>;
+    readonly select?: ReadonlyArray<SelectEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | SelectEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly set?: ReadonlyArray<SetEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | SetEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+}
+
+export interface CompositeEntityActionPayloadWithStoreFeature<TEntityTypeMap extends EntityTypeMap, TStoreFeature> {
+    readonly add?: ReadonlyArray<AddEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | AddEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly update?: ReadonlyArray<UpdateEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | UpdateEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly remove?: ReadonlyArray<RemoveEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | RemoveEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly clear?: ReadonlyArray<ClearEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | ClearEntityActionParamsList<TEntityTypeMap, TStoreFeature>;
+    readonly select?: ReadonlyArray<SelectEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | SelectEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly set?: ReadonlyArray<SetEntityActionParams<TEntityTypeMap, TStoreFeature>>
+        | SetEntityActionParamsMap<TEntityTypeMap, TStoreFeature>;
+    readonly storeFeature?: TStoreFeature;
+}
+
+
+/*
+const payload: CompositeEntityActionPayload<{ a: { label: string }, b: { title: string } }, null> = {
+    set: {
+        a: {
+            "myId": {
+                label: ""
+            }
+        }
+    },
+    remove: {
+        a: []
+    }
+};
+*/
