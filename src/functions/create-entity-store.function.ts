@@ -3,11 +3,24 @@ import {
     CompositeEntityActionPayload,
     EntityStore,
     EntityTypeMap,
-    EntitySelectorMap
+    EntitySelectorMap, defaultCompositeEntityActionConfig, EntityStateTransformationConfig
 } from "../models";
 import {createEntityReducers} from "./create-entity-reducers.function";
 import {composeEntityActions} from "./compose-entity-actions.function";
 import {createEntitySelectors} from "./create-entity-selectors.function";
+import {defaultEntityStateTransformationConfig} from "./default-create-entity-reducer-config.model";
+
+export interface EntityStoreConfig<TEntityTypeMap extends EntityTypeMap> {
+    readonly entityStateTransformationConfig: EntityStateTransformationConfig<any, any>;
+    readonly composeEntityActionConfig: CompositeEntityActionConfig
+}
+
+export function getDefaultEntityStoreConfig<TEntityTypeMap extends EntityTypeMap>(): EntityStoreConfig<TEntityTypeMap> {
+    return {
+        entityStateTransformationConfig: defaultEntityStateTransformationConfig,
+        composeEntityActionConfig: defaultCompositeEntityActionConfig
+    };
+}
 
 /**
  * Creates an entity store with reducers and selectors based on a given
@@ -16,7 +29,7 @@ import {createEntitySelectors} from "./create-entity-selectors.function";
 export function createEntityStore<TEntityTypeMap extends EntityTypeMap, TStoreFeature = string>(payload: {
     readonly entityTypes: ReadonlyArray<keyof TEntityTypeMap>;
     readonly storeFeature?: TStoreFeature;
-}): EntityStore<TEntityTypeMap, TStoreFeature> {
+}, config = getDefaultEntityStoreConfig()): EntityStore<TEntityTypeMap, TStoreFeature> {
 
     const selectors: EntitySelectorMap<TEntityTypeMap> = {} as any;
 
@@ -25,15 +38,21 @@ export function createEntityStore<TEntityTypeMap extends EntityTypeMap, TStoreFe
     });
 
     return {
-        reducers: createEntityReducers(payload),
+        reducers: createEntityReducers(payload, {
+            compositeEntityActionConfig: config.composeEntityActionConfig,
+            entityStateTransformationConfig: config.entityStateTransformationConfig
+        }),
         actions: {
             composeEntityActions: (
                 internalPayload: CompositeEntityActionPayload<TEntityTypeMap, TStoreFeature>,
-                config?: CompositeEntityActionConfig
+                composeEntityActionsConfig?: CompositeEntityActionConfig
             ) => {
                 return composeEntityActions({
                     ...internalPayload, storeFeature: payload.storeFeature
-                }, config);
+                }, {
+                    ...config.composeEntityActionConfig,
+                    ...composeEntityActionsConfig
+                });
             }
         },
         selectors
