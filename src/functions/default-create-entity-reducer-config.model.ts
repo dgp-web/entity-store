@@ -1,6 +1,6 @@
-import { 
-    addEntitiesToState, clearEntityState, removeEntitiesFromState, selectEntitiesInState, 
-    setEntitiesInState, updateEntitiesInState 
+import {
+    addEntitiesToState, clearEntityState, removeEntitiesFromState, selectEntitiesInState,
+    setEntitiesInState, updateEntitiesInState
 } from "./state-transformation";
 import { EntityStateTransformationConfig, defaultCompositeEntityActionConfig, CreateEntityReducerConfig } from "../models";
 
@@ -10,7 +10,7 @@ export const defaultEntityStateTransformationConfig: EntityStateTransformationCo
     remove: removeEntitiesFromState,
     clear: clearEntityState,
     select: selectEntitiesInState,
-    set: setEntitiesInState
+    set: setEntitiesInState 
 };
 
 export const defaultCreateEntityReducerConfig: CreateEntityReducerConfig<any, any> = {
