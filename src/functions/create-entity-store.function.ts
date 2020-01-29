@@ -8,7 +8,7 @@ import {
 import {createEntityReducers} from "./create-entity-reducers.function";
 import {composeEntityActions} from "./compose-entity-actions.function";
 import {createEntitySelectors} from "./create-entity-selectors.function";
-import {defaultEntityStateTransformationConfig} from "./default-create-entity-reducer-config.model";
+import {getDefaultEntityStateTransformationConfig} from "./default-create-entity-reducer-config.model";
 
 export interface EntityStoreConfig<TEntityTypeMap extends EntityTypeMap> {
     readonly entityStateTransformationConfig: EntityStateTransformationConfig<TEntityTypeMap[keyof TEntityTypeMap]>;
@@ -17,7 +17,7 @@ export interface EntityStoreConfig<TEntityTypeMap extends EntityTypeMap> {
 
 export function getDefaultEntityStoreConfig<TEntityTypeMap extends EntityTypeMap>(): EntityStoreConfig<TEntityTypeMap> {
     return {
-        entityStateTransformationConfig: defaultEntityStateTransformationConfig,
+        entityStateTransformationConfig: getDefaultEntityStateTransformationConfig(),
         composeEntityActionConfig: defaultCompositeEntityActionConfig
     };
 }

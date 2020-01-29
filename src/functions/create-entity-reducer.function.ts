@@ -1,7 +1,7 @@
 import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, CreateEntityReducerPayload } from "../models";
 import { CompositeEntityAction } from "../actions";
 import { createEntityState } from "./create-entity-state.function";
-import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
+import { getDefaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
 import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIncludedInActionType, isCompositeEntityActionType } from "./action-types";
 
 /**
@@ -31,7 +31,7 @@ import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIn
  */
 export function createEntityReducer<TEntity>(
     payload: CreateEntityReducerPayload<TEntity, EntityState<TEntity>>,
-    config: CreateEntityReducerConfig<TEntity> = defaultCreateEntityReducerConfig): EntityReducer<TEntity, EntityState<TEntity>> {
+    config: CreateEntityReducerConfig<TEntity> = getDefaultCreateEntityReducerConfig()): EntityReducer<TEntity, EntityState<TEntity>> {
 
     const entityType = payload.entityType;
     const storeFeature = payload.storeFeature;
