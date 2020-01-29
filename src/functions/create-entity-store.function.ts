@@ -11,7 +11,7 @@ import {createEntitySelectors} from "./create-entity-selectors.function";
 import {defaultEntityStateTransformationConfig} from "./default-create-entity-reducer-config.model";
 
 export interface EntityStoreConfig<TEntityTypeMap extends EntityTypeMap> {
-    readonly entityStateTransformationConfig: EntityStateTransformationConfig<any, any>;
+    readonly entityStateTransformationConfig: EntityStateTransformationConfig<TEntityTypeMap[keyof TEntityTypeMap]>;
     readonly composeEntityActionConfig: CompositeEntityActionConfig
 }
 

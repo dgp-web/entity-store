@@ -4,7 +4,7 @@ import {
 } from "./state-transformation";
 import { EntityStateTransformationConfig, defaultCompositeEntityActionConfig, CreateEntityReducerConfig } from "../models";
 
-export const defaultEntityStateTransformationConfig: EntityStateTransformationConfig<any, any> = {
+export const defaultEntityStateTransformationConfig: EntityStateTransformationConfig<any> = {
     add: addEntitiesToState,
     update: updateEntitiesInState,
     remove: removeEntitiesFromState,
@@ -13,7 +13,7 @@ export const defaultEntityStateTransformationConfig: EntityStateTransformationCo
     set: setEntitiesInState 
 };
 
-export const defaultCreateEntityReducerConfig: CreateEntityReducerConfig<any, any> = {
+export const defaultCreateEntityReducerConfig: CreateEntityReducerConfig<any> = {
     compositeEntityActionConfig: defaultCompositeEntityActionConfig,
     entityStateTransformationConfig: defaultEntityStateTransformationConfig
 };

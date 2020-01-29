@@ -1,14 +1,39 @@
 import { KVS } from "./key-value-store.model";
+import {EntityState} from "./entity-state.model";
+
+export interface AddEntitiesSignature<TModel> {
+    (state: EntityState<TModel>, payload: KVS<TModel>): EntityState<TModel>;
+}
+
+export interface UpdateEntitiesSignature<TModel> {
+    (state: EntityState<TModel>, payload: KVS<Partial<TModel>>): EntityState<TModel>;
+}
+
+export interface RemoveEntitiesSignature<TModel> {
+    (state: EntityState<TModel>, payload: ReadonlyArray<string>): EntityState<TModel>;
+}
+
+export interface ClearEntitiesSignature<TModel> {
+    (state: EntityState<TModel>): EntityState<TModel>;
+}
+
+export interface SelectEntitiesSignature<TModel> {
+    (state: EntityState<TModel>, payload: ReadonlyArray<string>): EntityState<TModel>;
+}
+
+export interface SetEntitiesSignature<TModel> {
+    (state: EntityState<TModel>, payload: KVS<TModel>): EntityState<TModel>;
+}
 
 /**
  * Describes how an entity-state is transformed
  * by entity actions.
  */
-export interface EntityStateTransformationConfig<TEntity, TState> {
-    readonly add: (state: TState, payload: KVS<TEntity>) => TState;
-    readonly update: (state: TState, payload: KVS<Partial<TEntity>>) => TState;
-    readonly remove: (state: TState, payload: ReadonlyArray<string>) => TState;
-    readonly clear: (state: TState) => TState;
-    readonly select: (state: TState, payload: ReadonlyArray<string>) => TState;
-    readonly set: (state: TState, payload: KVS<TEntity>) => TState;
+export interface EntityStateTransformationConfig<TModel> {
+    readonly add: AddEntitiesSignature<TModel>;
+    readonly update: UpdateEntitiesSignature<TModel>;
+    readonly remove: RemoveEntitiesSignature<TModel>;
+    readonly clear: ClearEntitiesSignature<TModel>;
+    readonly select:SelectEntitiesSignature<TModel>;
+    readonly set: SetEntitiesSignature<TModel>;
 }

@@ -29,15 +29,15 @@ import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIn
  *      storeFeature: "LocationManager" 
  * });
  */
-export function createEntityReducer<TEntity, TState extends EntityState<TEntity>>(
-    payload: CreateEntityReducerPayload<TEntity, TState>,
-    config: CreateEntityReducerConfig<TEntity, TState> = defaultCreateEntityReducerConfig): EntityReducer<TEntity, TState> {
+export function createEntityReducer<TEntity>(
+    payload: CreateEntityReducerPayload<TEntity, EntityState<TEntity>>,
+    config: CreateEntityReducerConfig<TEntity> = defaultCreateEntityReducerConfig): EntityReducer<TEntity, EntityState<TEntity>> {
 
     const entityType = payload.entityType;
     const storeFeature = payload.storeFeature;
     let initialState = payload.initialState;
     if (initialState === null || initialState === undefined) {
-        initialState = createEntityState<TEntity, TState>();
+        initialState = createEntityState<TEntity, EntityState<TEntity>>();
     }
     const additionalReducers = payload.additionalReducers;
 
@@ -46,9 +46,9 @@ export function createEntityReducer<TEntity, TState extends EntityState<TEntity>
         storeFeature: storeFeature
     }, config.compositeEntityActionConfig);
 
-    return function reducer(state: TState = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, TState>> = additionalReducers): TState {
+    return function reducer(state: EntityState<TEntity> = initialState, action: Action, _additionalReducers: ReadonlyArray<EntityReducer<TEntity, EntityState<TEntity>>> = additionalReducers): EntityState<TEntity> {
 
-        let reducedState: TState = state;
+        let reducedState: EntityState<TEntity> = state;
         if (isCompositeEntityActionType(action.type, config.compositeEntityActionConfig) && isEntityTypeIncludedInActionType({
             actionType: action.type,
             entityType: entityType
