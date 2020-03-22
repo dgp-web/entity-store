@@ -1,6 +1,6 @@
 import { EntityState, KeyValueStore } from "../../models";
 
-export function addEntitiesToState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: KeyValueStore<TModel>): TState {
+export function addEntitiesToState<TModel>(state: EntityState<TModel>, payload: KeyValueStore<TModel>): EntityState<TModel> {
 
     const newEntities = payload,
         newIds = Object.keys(newEntities),
