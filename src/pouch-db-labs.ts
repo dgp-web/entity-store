@@ -18,10 +18,22 @@ import {
     updateEntitiesInState
 } from "./functions";
 
+export type EntityQuery<TEntity> = "all" | ReadonlyArray<string>;
+
+export type CompositeEntityQuery<TEntityTypeMap extends EntityTypeMap> = {
+    readonly [K in keyof TEntityTypeMap]: EntityQuery<TEntityTypeMap[K]>;
+}
+
+export type CompositeEntityQueryResult<TEntityTypeMap extends EntityTypeMap> = {
+    readonly [K in keyof TEntityTypeMap]: KVS<TEntityTypeMap[K]>;
+}
+
 export interface EntityDb<TEntityTypeMap extends EntityTypeMap> {
     initialize$(entityTypes: ReadonlyArray<keyof TEntityTypeMap>): Promise<void>;
 
-    dispatch$(action: CompositeEntityActionPayload<TEntityTypeMap, null>): Promise<void>
+    dispatch$(action: CompositeEntityActionPayload<TEntityTypeMap, null>): Promise<void>;
+
+    get$(selection: CompositeEntityQuery<TEntityTypeMap>): CompositeEntityQueryResult<TEntityTypeMap>;
 }
 
 export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
@@ -30,6 +42,10 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
 ): EntityDb<TEntityTypeMap> {
 
     return {
+        get$: (selection: CompositeEntityQuery<TEntityTypeMap>) => {
+            return null;
+        },
+
         initialize$: async (entityTypes: ReadonlyArray<string>) => {
 
             const result = await dbRef.allDocs({keys: entityTypes as Array<string>});
