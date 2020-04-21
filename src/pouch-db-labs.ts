@@ -1,16 +1,19 @@
 import {
     AddEntityActionParamsMap,
+    ClearEntityActionParamsList,
     CompositeEntityActionPayload,
-    EntityState,
     EntityTypeMap,
     KVS,
-    RemoveEntityActionParamsMap, SelectEntityActionParamsMap,
-    SetEntityActionParamsMap, UpdateEntityActionParamsMap
+    RemoveEntityActionParamsMap,
+    SelectEntityActionParamsMap,
+    SetEntityActionParamsMap,
+    UpdateEntityActionParamsMap
 } from "./models";
 import {
     addEntitiesToState,
     createEntityState,
-    removeEntitiesFromState, selectEntitiesInState,
+    removeEntitiesFromState,
+    selectEntitiesInState,
     setEntitiesInState,
     updateEntitiesInState
 } from "./functions";
@@ -51,10 +54,17 @@ export class EntityPouchDbMiddleware<TEntityTypeMap extends EntityTypeMap> {
 
         // -----
 
+        // Clear
+        const entityTypesToClear = action.clear as ClearEntityActionParamsList<TEntityTypeMap, any>;
+        let result = await this.db.allDocs<any>({keys: entityTypesToClear as Array<string>});
+        result.rows.forEach(x => {
+            entityTypeBulkUpdateMap[x.id] = {...x, _deleted: true};
+        });
+
         // Remove
         const entityTypesToRemoveKeysMap = action.remove as RemoveEntityActionParamsMap<TEntityTypeMap, any>;
         const entityTypesFromWhichToRemoveKeys = Object.keys(entityTypesToRemoveKeysMap);
-        let result = await this.db.allDocs({keys: entityTypesFromWhichToRemoveKeys as Array<string>});
+        result = await this.db.allDocs({keys: entityTypesFromWhichToRemoveKeys as Array<string>});
         entityTypesFromWhichToRemoveKeys.map(entityType => {
             const idsToRemove = entityTypesToRemoveKeysMap[entityType];
             const currentState = result.rows.find(x => x.id === entityType) as any;
