@@ -40,9 +40,16 @@ export class EntityPouchDbMiddleware<TEntityTypeMap extends EntityTypeMap> {
         if (action.remove) {
             const entityTypesToRemoveKeys = action.remove as RemoveEntityActionParamsMap<TEntityTypeMap, any>;
 
-            // TODO: Iterate over these keys
+            Object.keys(entityTypesToRemoveKeys).forEach(key => {
 
-
+                const ids = entityTypesToRemoveKeys[key];
+                const relatedDocs = allDocs.rows
+                    .filter(x => ids.includes(x.id))
+                    .map(x => {
+                        return {...x, _deleted: true} as PouchDB.Core.PutDocument<any>;
+                    });
+                result = result.concat(relatedDocs)
+            });
         }
 
         // TODO: Iterate over remove
