@@ -1,5 +1,19 @@
-import { CompositeEntityActionPayload, EntityState, EntityTypeMap, KVS, RemoveEntityActionParamsMap } from "./models";
-import { createEntityState, removeEntitiesFromState } from "./functions";
+import {
+    AddEntityActionParamsMap,
+    CompositeEntityActionPayload,
+    EntityState,
+    EntityTypeMap,
+    KVS,
+    RemoveEntityActionParamsMap, SelectEntityActionParamsMap,
+    SetEntityActionParamsMap, UpdateEntityActionParamsMap
+} from "./models";
+import {
+    addEntitiesToState,
+    createEntityState,
+    removeEntitiesFromState, selectEntitiesInState,
+    setEntitiesInState,
+    updateEntitiesInState
+} from "./functions";
 
 export class EntityPouchDbMiddleware<TEntityTypeMap extends EntityTypeMap> {
 
@@ -24,7 +38,7 @@ export class EntityPouchDbMiddleware<TEntityTypeMap extends EntityTypeMap> {
                 _id: entityType,
                 ...createEntityState()
             } as PouchDB.Core.PostDocument<any>;
-        })
+        });
 
         return this.db.bulkDocs(bulkActions);
 
@@ -40,11 +54,51 @@ export class EntityPouchDbMiddleware<TEntityTypeMap extends EntityTypeMap> {
         // Remove
         const entityTypesToRemoveKeysMap = action.remove as RemoveEntityActionParamsMap<TEntityTypeMap, any>;
         const entityTypesFromWhichToRemoveKeys = Object.keys(entityTypesToRemoveKeysMap);
-        const result = await this.db.allDocs({keys: entityTypesFromWhichToRemoveKeys as Array<string>});
+        let result = await this.db.allDocs({keys: entityTypesFromWhichToRemoveKeys as Array<string>});
         entityTypesFromWhichToRemoveKeys.map(entityType => {
             const idsToRemove = entityTypesToRemoveKeysMap[entityType];
             const currentState = result.rows.find(x => x.id === entityType) as any;
             entityTypeBulkUpdateMap[entityType] = removeEntitiesFromState(currentState as any, idsToRemove);
+        });
+
+        // Set
+        const entityTypesToSetKeysMap = action.set as SetEntityActionParamsMap<TEntityTypeMap, any>;
+        const entityTypesFromWhichToSetKeys = Object.keys(entityTypesToSetKeysMap);
+        result = await this.db.allDocs({keys: entityTypesFromWhichToSetKeys as Array<string>});
+        entityTypesFromWhichToSetKeys.map(entityType => {
+            const entityToSetKVS = entityTypesToSetKeysMap[entityType];
+            const currentState = result.rows.find(x => x.id === entityType) as any;
+            entityTypeBulkUpdateMap[entityType] = setEntitiesInState(currentState as any, entityToSetKVS);
+        });
+
+        // Add
+        const entityTypesToAddKeysMap = action.add as AddEntityActionParamsMap<TEntityTypeMap, any>;
+        const entityTypesFromWhichToAddKeys = Object.keys(entityTypesToAddKeysMap);
+        result = await this.db.allDocs({keys: entityTypesFromWhichToAddKeys as Array<string>});
+        entityTypesFromWhichToAddKeys.map(entityType => {
+            const entityToAddKVS = entityTypesToAddKeysMap[entityType];
+            const currentState = result.rows.find(x => x.id === entityType) as any;
+            entityTypeBulkUpdateMap[entityType] = addEntitiesToState(currentState as any, entityToAddKVS);
+        });
+
+        // Update
+        const entityTypesToUpdateKeysMap = action.update as UpdateEntityActionParamsMap<TEntityTypeMap, any>;
+        const entityTypesFromWhichToUpdateKeys = Object.keys(entityTypesToUpdateKeysMap);
+        result = await this.db.allDocs({keys: entityTypesFromWhichToUpdateKeys as Array<string>});
+        entityTypesFromWhichToUpdateKeys.map(entityType => {
+            const entityToUpdateKVS = entityTypesToUpdateKeysMap[entityType];
+            const currentState = result.rows.find(x => x.id === entityType) as any;
+            entityTypeBulkUpdateMap[entityType] = updateEntitiesInState(currentState as any, entityToUpdateKVS);
+        });
+
+        // Select
+        const entityTypesToSelectKeysMap = action.select as SelectEntityActionParamsMap<TEntityTypeMap, any>;
+        const entityTypesFromWhichToSelectKeys = Object.keys(entityTypesToSelectKeysMap);
+        result = await this.db.allDocs({keys: entityTypesFromWhichToSelectKeys as Array<string>});
+        entityTypesFromWhichToSelectKeys.map(entityType => {
+            const entityToSelect = entityTypesToSelectKeysMap[entityType];
+            const currentState = result.rows.find(x => x.id === entityType) as any;
+            entityTypeBulkUpdateMap[entityType] = selectEntitiesInState(currentState as any, entityToSelect);
         });
 
         // -----
@@ -53,58 +107,6 @@ export class EntityPouchDbMiddleware<TEntityTypeMap extends EntityTypeMap> {
             return entityTypeBulkUpdateMap[entityType] as PouchDB.Core.PutDocument<any>;
         })
         return this.db.bulkDocs(bulkUpdateItems).then();
-
-        /*  const updatedStates = result.rows.map(partialResult => {
-             const
-
-              const updatedState = removeEntitiesFromState(partialResult, )
-
-          });*/
-
-        /*let result: Array<PouchDB.Core.PutDocument<any>> = [];
-        const allDocs = await this.db.allDocs<any>();
-
-        if (action.clear) {
-
-            const entityTypesToClear = action.clear as ClearEntityActionParamsList<TEntityTypeMap, any>;
-
-            entityTypesToClear.forEach(entityType => {
-                const relatedDocs = allDocs.rows
-                    .filter(x => x.id.startsWith(entityType as string))
-                    .map(x => {
-                        return {...x, _deleted: true} as PouchDB.Core.PutDocument<any>;
-                    });
-                result = result.concat(relatedDocs)
-            });
-
-        }
-
-        if (action.remove) {
-            const entityTypesToRemoveKeys = action.remove as RemoveEntityActionParamsMap<TEntityTypeMap, any>;
-
-            Object.keys(entityTypesToRemoveKeys).forEach(key => {
-
-                const ids = entityTypesToRemoveKeys[key];
-                const relatedDocs = allDocs.rows
-                    .filter(x => ids.includes(x.id))
-                    .map(x => {
-                        return {...x, _deleted: true} as PouchDB.Core.PutDocument<any>;
-                    });
-                result = result.concat(relatedDocs)
-            });
-        }
-
-        // TODO: Iterate over set
-        // TODO: Iterate over add
-        // TODO: Iterate over update
-
-        return this.db.bulkDocs(result).then();
-
-        /!*await this.db.put({
-            ...(settings as any),
-            _id: this.config.entityType
-
-        }*!/*/
     }
 
 }
