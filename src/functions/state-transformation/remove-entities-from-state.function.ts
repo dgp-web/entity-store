@@ -9,7 +9,7 @@ export function removeEntitiesFromState<TModel, TState extends EntityState<TMode
         entities[id] = state.entities[id]
     });
 
-    const selectedIds = state.selectedIds.filter(x => payload.some(y => y === x));
+    const selectedIds = state.selectedIds.filter(x => !payload.some(y => y === x));
 
     return {
         ...state,
