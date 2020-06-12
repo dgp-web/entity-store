@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+        key: $NPM_AUTH_TOKEN
+        
+    - name: Install npm packages
+      run: npm ci --ignore-scripts --loglevel=error
+
+    - name: Build deployable artifacts in ./dist
+      run: npm run build
+      
+    - name: Publish ./dist folder to npm
+      run: cd ./dist && npm publish
