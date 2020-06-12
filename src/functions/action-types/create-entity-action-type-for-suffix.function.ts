@@ -1,4 +1,9 @@
-import { CompositeEntityActionConfig, EntityActionParams, defaultCompositeEntityActionConfig } from "../../models";
+import {
+    CompositeEntityActionConfig,
+    EntityActionParams,
+    defaultCompositeEntityActionConfig,
+    EntityTypeMap
+} from "../../models";
 import { createEntityActionType } from "./create-entity-action-type.function";
 
 /**
@@ -7,15 +12,15 @@ import { createEntityActionType } from "./create-entity-action-type.function";
  * @param {ReadonlyArray<EntityActionParams>} entities 
  * @param {CompositeEntityActionConfig} [config=defaultCompositeEntityActionConfig] 
  */
-export function createEntityActionTypesForSuffix(
-    actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams>, 
+export function createEntityActionTypesForSuffix<TEntityTypeMap extends EntityTypeMap, TStoreFeature>(
+    actionTypeSuffix: string, entities: ReadonlyArray<EntityActionParams<TEntityTypeMap, TStoreFeature>>,
     config: CompositeEntityActionConfig = defaultCompositeEntityActionConfig): string {
 
     let result = "";
 
     if (entities) {
         entities.forEach(entity => {
-            result += createEntityActionType(entity.entityType, actionTypeSuffix, entity.storeFeature) + config.separator;
+            result += createEntityActionType<TEntityTypeMap, TStoreFeature>(entity.entityType, actionTypeSuffix, entity.storeFeature) + config.separator;
         })
     } else {
 
