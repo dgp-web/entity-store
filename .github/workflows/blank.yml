@@ -13,7 +13,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12'
-        key: $NPM_AUTH_TOKEN
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install npm packages
       run: npm ci --ignore-scripts --loglevel=error
@@ -23,3 +23,5 @@ jobs:
       
     - name: Publish ./dist folder to npm
       run: cd ./dist && npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
