@@ -1,6 +1,6 @@
 {
   "name": "entity-store",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "license": "MIT",
   "author": {
     "name": "dgp-web",
@@ -21,7 +21,7 @@
     "test": "karma start"
   },
   "dependencies": {},
-  "private": false,
+  "private": true,
   "devDependencies": {
     "@types/jasmine": "^3.3.9",
     "awesome-typescript-loader": "^5.0.0",
