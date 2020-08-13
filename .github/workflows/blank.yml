@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-publish:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Install npm packages
+      run: npm ci --ignore-scripts --loglevel=error
+
+    - name: Build deployable artifacts in ./dist
+      run: npm run build
+      
+    - name: Publish ./dist folder to npm
+      run: cd ./dist && npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
