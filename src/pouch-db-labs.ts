@@ -18,6 +18,8 @@ import {
     updateEntitiesInState
 } from "./functions";
 import * as _ from "lodash";
+import {of, Subject, timer} from "rxjs";
+import {filter, switchMap} from "rxjs/operators";
 
 export type EntityQuery<TEntity> = "all" | ReadonlyArray<string>;
 
@@ -37,10 +39,42 @@ export interface EntityDb<TEntityTypeMap extends EntityTypeMap> {
     get$(selection: CompositeEntityQuery<TEntityTypeMap>): Promise<CompositeEntityQueryResult<TEntityTypeMap>>;
 }
 
+export type PouchDbFactory = () => PouchDB.Database;
+
 export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
     entityTypes: ReadonlyArray<keyof TEntityTypeMap>,
-    dbRef: PouchDB.Database
+    dbRef: PouchDB.Database | PouchDbFactory // TODO: Add a factory that only creates the database if needed; getDb$(): Promise<PouchDB.Database>
 ): EntityDb<TEntityTypeMap> {
+
+    let currentDbInstance: PouchDB.Database = null;
+
+    const cleaner = new Subject();
+    cleaner.pipe(
+        switchMap(() => timer(5000)),
+        switchMap(() => {
+            if (currentDbInstance !== null) {
+                return currentDbInstance.close()
+                    .then(() => currentDbInstance = null);
+            } else {
+                return of(null);
+            }
+        }),
+        filter(x => x !== null)
+    ).subscribe();
+
+    function getDb() {
+
+        if (typeof dbRef === "object") {
+            return dbRef as PouchDB.Database;
+        } else if (typeof dbRef === "function") {
+            // restart timer
+            if (currentDbInstance === null) currentDbInstance = dbRef();
+            cleaner.next();
+            return currentDbInstance;
+
+        }
+
+    }
 
     return {
         get$: async (selection: CompositeEntityQuery<TEntityTypeMap>) => {
@@ -48,9 +82,9 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
             const result: CompositeEntityQueryResult<TEntityTypeMap> = {};
 
             const entityTypes = Object.keys(selection);
-            const allDocsResult = await dbRef.allDocs({keys: entityTypes as Array<string>});
+            const allDocsResult = await getDb().allDocs({keys: entityTypes as Array<string>});
 
-            const entityTypeDocs = await dbRef.bulkGet({
+            const entityTypeDocs = await getDb().bulkGet({
                 docs: allDocsResult.rows.map(x => {
                     return {
                         id: x.id
@@ -88,7 +122,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
 
         initialize$: async () => {
 
-            const result = await dbRef.allDocs({keys: entityTypes as Array<string>});
+            const result = await getDb().allDocs({keys: entityTypes as Array<string>});
             const foundKeys = result.rows.map(x => x.id);
 
             const entityTypesToCreate = entityTypes.filter(
@@ -101,7 +135,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
                 } as PouchDB.Core.PostDocument<any>;
             });
 
-            return dbRef.bulkDocs(bulkActions).then();
+            return getDb().bulkDocs(bulkActions).then();
 
         },
 
@@ -118,7 +152,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
             // Clear
             if (action.clear) {
                 const entityTypesToClear = action.clear as ClearEntityActionParamsList<TEntityTypeMap, any>;
-                let result = await dbRef.allDocs<any>({keys: entityTypesToClear as Array<string>});
+                let result = await getDb().allDocs<any>({keys: entityTypesToClear as Array<string>});
                 result.rows.forEach(x => {
                     entityTypeBulkUpdateMap[x.id] = {_id: x.id, _deleted: true};
                 });
@@ -129,7 +163,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
 
                 const entityTypesToRemoveKeysMap = action.remove as RemoveEntityActionParamsMap<TEntityTypeMap, any>;
                 const entityTypesFromWhichToRemoveKeys = Object.keys(entityTypesToRemoveKeysMap);
-                result1 = await dbRef.bulkGet({
+                result1 = await getDb().bulkGet({
                     docs: entityTypesFromWhichToRemoveKeys.map(x => {
                         return {id: x} as any;
                     })
@@ -155,7 +189,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
 
                 const entityTypesToSetKeysMap = action.set as SetEntityActionParamsMap<TEntityTypeMap, any>;
                 const entityTypesFromWhichToSetKeys = Object.keys(entityTypesToSetKeysMap);
-                result1 = await dbRef.bulkGet({
+                result1 = await getDb().bulkGet({
                     docs: entityTypesFromWhichToSetKeys.map(x => {
                         return {id: x} as any;
                     })
@@ -181,7 +215,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
 
                 const entityTypesToAddKeysMap = action.add as AddEntityActionParamsMap<TEntityTypeMap, any>;
                 const entityTypesFromWhichToAddKeys = Object.keys(entityTypesToAddKeysMap);
-                result1 = await dbRef.bulkGet({
+                result1 = await getDb().bulkGet({
                     docs: entityTypesFromWhichToAddKeys.map(x => {
                         return {id: x} as any;
                     })
@@ -207,7 +241,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
 
                 const entityTypesToUpdateKeysMap = action.update as UpdateEntityActionParamsMap<TEntityTypeMap, any>;
                 const entityTypesFromWhichToUpdateKeys = Object.keys(entityTypesToUpdateKeysMap);
-                result1 = await dbRef.bulkGet({
+                result1 = await getDb().bulkGet({
                     docs: entityTypesFromWhichToUpdateKeys.map(x => {
                         return {id: x} as any;
                     })
@@ -232,7 +266,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
             if (action.select) {
                 const entityTypesToSelectKeysMap = action.select as SelectEntityActionParamsMap<TEntityTypeMap, any>;
                 const entityTypesFromWhichToSelectKeys = Object.keys(entityTypesToSelectKeysMap);
-                result1 = await dbRef.bulkGet({
+                result1 = await getDb().bulkGet({
                     docs: entityTypesFromWhichToSelectKeys.map(x => {
                         return {id: x} as any;
                     })
@@ -257,7 +291,7 @@ export function createEntityPouchDb<TEntityTypeMap extends EntityTypeMap>(
             const bulkUpdateItems = Object.keys(entityTypeBulkUpdateMap).map(entityType => {
                 return entityTypeBulkUpdateMap[entityType] as PouchDB.Core.PutDocument<any>;
             })
-            return dbRef.bulkDocs(bulkUpdateItems).then();
+            return getDb().bulkDocs(bulkUpdateItems).then();
         }
     };
 }
