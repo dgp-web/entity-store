@@ -1,6 +1,6 @@
 {
   "name": "entity-store",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "license": "MIT",
   "author": {
     "name": "dgp-web",
@@ -20,7 +20,9 @@
     "build": "tsc --project tsconfig.dist.json",
     "test": "karma start"
   },
-  "dependencies": {},
+  "dependencies": {
+    "data-modeling": "^1.0.0"
+  },
   "private": true,
   "devDependencies": {
     "@types/jasmine": "^3.3.9",
