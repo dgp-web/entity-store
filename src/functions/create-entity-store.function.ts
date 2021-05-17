@@ -3,7 +3,7 @@ import {
     CompositeEntityActionPayload,
     EntityStore,
     EntityTypeMap,
-    EntitySelectorMap
+    EntitySelectorMap, EntityMetadataMap
 } from "../models";
 import {createEntityReducers} from "./create-entity-reducers.function";
 import {composeEntityActions} from "./compose-entity-actions.function";
@@ -16,6 +16,7 @@ import {createEntitySelectors} from "./create-entity-selectors.function";
 export function createEntityStore<TEntityTypeMap extends EntityTypeMap, TStoreFeature = string>(payload: {
     readonly entityTypes: ReadonlyArray<keyof TEntityTypeMap>;
     readonly storeFeature?: TStoreFeature;
+    readonly metadata?: EntityMetadataMap<TEntityTypeMap>
 }): EntityStore<TEntityTypeMap, TStoreFeature> {
 
     const selectors: EntitySelectorMap<TEntityTypeMap> = {} as any;
@@ -36,7 +37,8 @@ export function createEntityStore<TEntityTypeMap extends EntityTypeMap, TStoreFe
                 }, config);
             }
         },
-        selectors
+        selectors,
+        metadata: payload.metadata
     };
 
 }
