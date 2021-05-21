@@ -2,10 +2,7 @@ export * from "./actions/composite-entity.action";
 
 export * from "./models/action.model";
 export * from "./models/composed-entity-actions.model";
-export * from "./models/key-value-store.model";
-export * from "./models/entity-state.model";
 export * from "./models/entity.model";
-export * from "./models/entity-state.model";
 export * from "./models/entity-selectors.model";
 export * from "./models/entity-reducer.model";
 export * from "./models/create-entity-reducer-config.model";

@@ -1,5 +1,5 @@
 import {createEntityState} from "../create-entity-state.function";
-import { EntityState } from "../../models/entity-state.model";
+import { EntityState } from "data-modeling";
 import { Entity } from "../../models";
 
 interface MyStateAttributes {

@@ -1,4 +1,4 @@
-import { EntityState } from "../../models";
+import { EntityState } from "data-modeling";
 
 export function removeEntitiesFromState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: ReadonlyArray<string>): TState {
 
@@ -13,8 +13,8 @@ export function removeEntitiesFromState<TModel, TState extends EntityState<TMode
 
     return {
         ...state,
-        ids: ids, 
-        entities: entities, 
+        ids: ids,
+        entities: entities,
         selectedIds: selectedIds
     };
 

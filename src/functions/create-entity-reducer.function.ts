@@ -1,29 +1,35 @@
-import { Action, CreateEntityReducerConfig, EntityReducer, EntityState, CreateEntityReducerPayload } from "../models";
+import { Action, CreateEntityReducerConfig, CreateEntityReducerPayload, EntityReducer } from "../models";
+import { EntityState } from "data-modeling";
 import { CompositeEntityAction } from "../actions";
 import { createEntityState } from "./create-entity-state.function";
 import { defaultCreateEntityReducerConfig } from "./default-create-entity-reducer-config.model";
-import { createEntityActionTypes, parseCompositeEntityActionType, isEntityTypeIncludedInActionType, isCompositeEntityActionType } from "./action-types";
+import {
+    createEntityActionTypes,
+    isCompositeEntityActionType,
+    isEntityTypeIncludedInActionType,
+    parseCompositeEntityActionType
+} from "./action-types";
 
 /**
- * Creates a reducer for the specified entity type that reacts to basic operations 
+ * Creates a reducer for the specified entity type that reacts to basic operations
  * (add, update, remove, select, set, and clear)
  * @param {CreateEntityReducerPayload<TEntity, TState>} payload
  * @param {CreateEntityReducerConfig<TEntity, TState>} payload
- * 
+ *
  * @returns {EntityReducer<TEntity, TState>}
- * 
+ *
  * @example
  * // Create an entity reducer
  * import { createEntityReducer } from "entity-store";
- * 
+ *
  * const userReducer = createEntityReducer({ 
  *      entityType: "User" 
  * });
- * 
+ *
  * @example
  * // Create an entity reducer in a store feature
  * import { createEntityReducer } from "entity-store";
- * 
+ *
  * const userReducer = createEntityReducer({ 
  *      entityType: "Location", 
  *      storeFeature: "LocationManager" 

@@ -1,13 +1,14 @@
 import {
     CompositeEntityActionConfig,
     CompositeEntityActionPayload,
-    EntityStore,
-    EntityTypeMap,
-    EntitySelectorMap, EntityMetadataMap
+    EntityMetadataMap,
+    EntitySelectorMap,
+    EntityStore
 } from "../models";
-import {createEntityReducers} from "./create-entity-reducers.function";
-import {composeEntityActions} from "./compose-entity-actions.function";
-import {createEntitySelectors} from "./create-entity-selectors.function";
+import { EntityTypeMap } from "data-modeling";
+import { createEntityReducers } from "./create-entity-reducers.function";
+import { composeEntityActions } from "./compose-entity-actions.function";
+import { createEntitySelectors } from "./create-entity-selectors.function";
 
 /**
  * Creates an entity store with reducers and selectors based on a given

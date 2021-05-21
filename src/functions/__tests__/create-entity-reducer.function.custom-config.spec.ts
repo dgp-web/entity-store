@@ -1,8 +1,9 @@
 import { createEntityReducer, createEntityState } from "..";
-import { Action, Entity, EntityReducer, EntityState } from "../../models";
+import { Action, Entity, EntityReducer } from "../../models";
 import { CompositeEntityAction } from "../../actions";
 import { EntityStoreTestData } from "./test-data.spec";
 import { defaultCreateEntityReducerConfig } from "../default-create-entity-reducer-config.model";
+import { EntityState } from "data-modeling";
 
 interface MyEntity extends Entity {
     myAttribute: string;
