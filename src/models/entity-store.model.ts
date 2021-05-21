@@ -1,6 +1,5 @@
 import { EntityReducerMap } from "./entity-reducer-map.model";
-import { EntityStateMap } from "./entity-state-map.model";
-import { EntityTypeMap } from "./entity-type-map.model";
+import { EntityStateMap, EntityTypeMap } from "data-modeling";
 import { CompositeEntityActionPayload } from "./composite-entity-action-payload.model";
 import { CompositeEntityActionConfig } from "./composite-entity-action-config.model";
 import { ComposedEntityActions } from "./composed-entity-actions.model";

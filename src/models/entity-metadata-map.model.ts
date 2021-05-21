@@ -1,4 +1,4 @@
-import { EntityTypeMap } from "./entity-type-map.model";
+import { EntityTypeMap } from "data-modeling";
 import { EntityMetadata } from "./entity-metadata.model";
 
 export type EntityMetadataMap<TEntityTypeMap extends EntityTypeMap> = {

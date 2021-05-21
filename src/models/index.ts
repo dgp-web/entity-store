@@ -14,7 +14,5 @@ export * from "./entity-reducer.model";
 export * from "./entity-reducer-map.model";
 export * from "./entity-selectors.model";
 export * from "./entity-selector-map.model";
-export * from "./entity-state-map.model";
 export * from "./entity-store.model";
-export * from "./entity-type-map.model";
 export * from "./selector.model";
