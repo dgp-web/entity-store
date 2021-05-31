@@ -2,9 +2,10 @@ import {
     Action,
     CompositeEntityActionConfig,
     defaultCompositeEntityActionConfig,
-    EntityTypeMap, NormalizedCompositeEntityActionPayload
+    NormalizedCompositeEntityActionPayload
 } from "../models";
-import {createCompositeEntityActionType} from "../functions";
+import { createCompositeEntityActionType } from "../functions";
+import { EntityTypeMap } from "data-modeling";
 
 /**
  * Performs add, update, remove, clear, and select operations in all target reducers

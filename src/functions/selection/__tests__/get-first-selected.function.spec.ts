@@ -1,5 +1,5 @@
 import { getFirstSelected } from "../get-first-selected.function";
-import { EntityState } from "../../../models";
+import { EntityState } from "data-modeling";
 
 describe("getFirstSelected", () => {
 
@@ -8,8 +8,8 @@ describe("getFirstSelected", () => {
         const state: EntityState<{}> = {
             ids: ["1", "2"],
             entities: {
-                "1": { id: "1"},
-                "2": { id: "2"}
+                "1": {id: "1"},
+                "2": {id: "2"}
             },
             selectedIds: ["1"]
         };

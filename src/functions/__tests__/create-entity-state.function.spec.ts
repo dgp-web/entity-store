@@ -1,14 +1,16 @@
-import {createEntityState} from "../create-entity-state.function";
-import { EntityState } from "../../models/entity-state.model";
+import { createEntityState } from "../create-entity-state.function";
+import { EntityState } from "data-modeling";
 import { Entity } from "../../models";
 
 interface MyStateAttributes {
     myAttribute: string;
 }
 
-interface MyEntity extends Entity {}
+interface MyEntity extends Entity {
+}
 
-interface MyState extends EntityState<MyEntity>, MyStateAttributes {}
+interface MyState extends EntityState<MyEntity>, MyStateAttributes {
+}
 
 describe("createEntityState", () => {
 
@@ -35,7 +37,7 @@ describe("createEntityState", () => {
 
     it("should assign additional attributes to the entity state if those are passed as argument.", () => {
 
-        const state: MyState = createEntityState<MyEntity, MyState>({ myAttribute: "myValue" });
+        const state: MyState = createEntityState<MyEntity, MyState>({myAttribute: "myValue"});
 
         expect(state.hasOwnProperty("myAttribute")).toBeTruthy();
         expect(state.myAttribute).toEqual("myValue");

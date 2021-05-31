@@ -1,9 +1,10 @@
 import {
     CompositeEntityActionConfig,
     defaultCompositeEntityActionConfig,
-    EntityTypeMap, NormalizedCompositeEntityActionPayload
+    NormalizedCompositeEntityActionPayload
 } from "../../models";
 import { createEntityActionTypesForSuffix } from "./create-entity-action-type-for-suffix.function";
+import { EntityTypeMap } from "data-modeling";
 
 /**
  * Creates an action type from a CompositeEntityActionPayload

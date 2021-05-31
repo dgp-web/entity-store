@@ -1,7 +1,5 @@
 import { Selector } from "./selector.model";
-import { KVS } from "./key-value-store.model";
-import {EntityTypeMap} from "./entity-type-map.model";
-import {EntityStateMap} from "./entity-state-map.model";
+import { EntityStateMap, EntityTypeMap, KVS } from "data-modeling";
 
 export interface EntitySelectors<TEntityTypeMap extends EntityTypeMap, TModel> {
     readonly getIds: Selector<EntityStateMap<TEntityTypeMap>, ReadonlyArray<string>>;

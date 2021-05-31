@@ -1,4 +1,4 @@
-import { EntityState } from "../models";
+import { EntityState } from "data-modeling";
 
 /**
  * Creates an empty entity state

@@ -1,4 +1,4 @@
-import {EntityTypeMap} from "./entity-type-map.model";
+import { EntityTypeMap } from "data-modeling";
 
 /**
  * Identifier for an entity type within

@@ -1,6 +1,7 @@
-import { Entity, EntityState, CompositeEntityActionConfig } from "../../models";
+import { CompositeEntityActionConfig, Entity } from "../../models";
 import { createEntityState } from "../create-entity-state.function";
 import { addEntitiesToState, selectEntitiesInState } from "../state-transformation";
+import { EntityState } from "data-modeling";
 
 export interface MyEntity extends Entity {
     myAttribute: string;
@@ -48,7 +49,7 @@ export function getMyEntityStateWithTwoEntities(payload?: {
 export class EntityStoreTestData {
 
     static readonly customCompositeEntityActionConfig: CompositeEntityActionConfig = {
-       
+
         prefixes: {
             composite: "MyCompositeType",
             add: "ADD",
@@ -60,7 +61,7 @@ export class EntityStoreTestData {
         },
         separator: "_/_",
         spacer: "_"
-        
+
     };
 
 }

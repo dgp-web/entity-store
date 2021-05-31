@@ -1,4 +1,4 @@
-import { KVS } from "./key-value-store.model";
+import { KVS } from "data-modeling";
 
 /**
  * Describes how an entity-state is transformed

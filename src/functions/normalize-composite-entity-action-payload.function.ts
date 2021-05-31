@@ -1,7 +1,7 @@
+import { EntityTypeMap } from "data-modeling";
 import {
     AddEntityActionParamsMap,
     CompositeEntityActionPayloadWithStoreFeature,
-    EntityTypeMap,
     NormalizedCompositeEntityActionPayload,
     RemoveEntityActionParamsMap,
     SelectEntityActionParamsMap,
