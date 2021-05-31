@@ -1,4 +1,4 @@
-import { EntityTypeMap } from "../../models";
+import { EntityTypeMap } from "data-modeling";
 
 /**
  * Composes a fragment of a composite-entity action's type

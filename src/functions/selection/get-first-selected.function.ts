@@ -1,4 +1,4 @@
-import { EntityState } from "../../models";
+import { EntityState } from "data-modeling";
 import { isNullOrUndefined } from "util";
 
 /**

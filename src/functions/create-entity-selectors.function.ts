@@ -1,5 +1,6 @@
-import {EntitySelectors, EntityTypeMap} from "../models";
-import {getAll, getFirstSelected} from "./selection";
+import { EntitySelectors } from "../models";
+import { EntityTypeMap } from "data-modeling";
+import { getAll, getFirstSelected } from "./selection";
 
 /**
  * Creates selectors based on the passed root selector

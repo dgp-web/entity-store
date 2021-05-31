@@ -1,9 +1,10 @@
-import { EntityState } from "../../models";
-import { createEntityState } from "../create-entity-state.function";
+import { EntityState } from "data-modeling";
 
 export function clearEntityState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState): TState {
     return {
-        ...state, 
-        ...createEntityState()
+        ...state,
+        ids: [],
+        entities: {},
+        selectedIds: []
     };
 }

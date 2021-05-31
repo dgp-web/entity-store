@@ -1,5 +1,6 @@
-import {EntityReducerMap, EntityStateMap, EntityTypeMap} from "../models";
-import {createEntityReducer} from "./create-entity-reducer.function";
+import { EntityReducerMap } from "../models";
+import { EntityStateMap, EntityTypeMap } from "data-modeling";
+import { createEntityReducer } from "./create-entity-reducer.function";
 
 export function createEntityReducers<TEntityTypeMap extends EntityTypeMap, TStoreFeature = string>(payload: {
     readonly entityTypes: ReadonlyArray<keyof TEntityTypeMap>;

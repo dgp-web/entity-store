@@ -1,4 +1,4 @@
-import { EntityState } from "./entity-state.model";
+import { EntityState } from "data-modeling";
 import { Reducer } from "./reducer.model";
 
 /**

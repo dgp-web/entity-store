@@ -1,6 +1,5 @@
 import { EntityActionParams } from "./entity-action-params.model";
-import { KeyValueStore } from "./key-value-store.model";
-import { EntityTypeMap } from "./entity-type-map.model";
+import { EntityTypeMap, KeyValueStore } from "data-modeling";
 
 /**
  * Adds a kvs of entities to the reducer identified by the type argument

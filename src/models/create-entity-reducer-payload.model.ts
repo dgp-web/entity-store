@@ -1,5 +1,5 @@
 import { EntityReducer } from "./entity-reducer.model";
-import { EntityState } from "./entity-state.model";
+import { EntityState } from "data-modeling";
 
 /**
  * The payload for createEntityReducer

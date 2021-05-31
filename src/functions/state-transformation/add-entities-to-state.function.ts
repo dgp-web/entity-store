@@ -1,4 +1,4 @@
-import { EntityState, KeyValueStore } from "../../models";
+import { EntityState, KeyValueStore } from "data-modeling";
 
 export function addEntitiesToState<TModel, TState extends EntityState<TModel> & TAttributes, TAttributes>(state: TState, payload: KeyValueStore<TModel>): TState {
 
@@ -9,7 +9,7 @@ export function addEntitiesToState<TModel, TState extends EntityState<TModel> & 
 
     return {
         ...state,
-        ids: ids, 
+        ids: ids,
         entities: entities
     };
 

@@ -1,5 +1,5 @@
-import { EntityState } from "../../../models";
 import { getAll } from "../get-all.function";
+import { EntityState } from "data-modeling";
 
 describe("getAll", () => {
 
@@ -8,8 +8,8 @@ describe("getAll", () => {
         const state: EntityState<{}> = {
             ids: ["1", "2"],
             entities: {
-                "1": { id: "1"},
-                "2": { id: "2"}
+                "1": {id: "1"},
+                "2": {id: "2"}
             }
         };
 
