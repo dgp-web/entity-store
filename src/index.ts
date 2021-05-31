@@ -7,6 +7,7 @@ export * from "./models/entity-selectors.model";
 export * from "./models/entity-reducer.model";
 export * from "./models/create-entity-reducer-config.model";
 export * from "./models/composite-entity-action-config.model";
+export * from "./models/composite-entity-action-payload.model";
 export * from "./models/create-entity-reducer-config.model";
 export * from "./models/entity-state-transformation-config.model";
 export * from "./models/entity-reducer-map.model";
