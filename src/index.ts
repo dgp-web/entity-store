@@ -19,6 +19,7 @@ export * from "./models/selector.model";
 export * from "./functions/selection/get-all.function";
 export * from "./functions/selection/get-first-selected.function";
 export * from "./functions/compose-entity-actions.function";
+export * from "./functions/create-composite-entity-reducer.function";
 export * from "./functions/create-entity-state.function";
 export * from "./functions/create-entity-store.function";
 export * from "./functions/create-entity-selectors.function";
