@@ -1,5 +1,4 @@
 import { EntityState } from "data-modeling";
-import { isNullOrUndefined } from "util";
 
 /**
  * Returns the first selected entity
@@ -15,7 +14,7 @@ import { isNullOrUndefined } from "util";
 export function getFirstSelected<T>(state: EntityState<T>): T {
     const firstSelected = state.selectedIds.map(id => state.entities[id])[0];
 
-    if (isNullOrUndefined(firstSelected)) return null;
+    if (firstSelected === null || firstSelected === undefined) return null;
 
     return firstSelected;
 }
