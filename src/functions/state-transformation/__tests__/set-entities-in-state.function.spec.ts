@@ -1,6 +1,6 @@
-import { EntityState, KeyValueStore } from "../../../models";
-import { getMyEntityStateWithTwoEntities, MyEntity, secondEntity } from "../../__tests__/test-data.spec";
+import { getMyEntityStateWithTwoEntities, MyEntity, secondEntity } from "../../__tests__/test-data";
 import { setEntitiesInState } from "../set-entities-in-state.function";
+import { EntityState, KeyValueStore } from "data-modeling";
 
 describe("setEntitiesInState", () => {
 

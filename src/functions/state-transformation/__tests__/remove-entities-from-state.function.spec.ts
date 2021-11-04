@@ -1,4 +1,4 @@
-import { getMyEntityStateWithTwoEntities, MyEntityState, secondEntity } from "../../__tests__/test-data.spec";
+import { getMyEntityStateWithTwoEntities, MyEntityState, secondEntity } from "../../__tests__/test-data";
 import { removeEntitiesFromState } from "../remove-entities-from-state.function";
 
 describe("removeEntitiesFromState", () => {

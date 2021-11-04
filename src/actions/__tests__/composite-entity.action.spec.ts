@@ -1,5 +1,5 @@
 import { CompositeEntityAction } from "../composite-entity.action";
-import { EntityStoreTestData } from "../../functions/__tests__/test-data.spec";
+import { EntityStoreTestData } from "../../functions/__tests__/test-data";
 
 describe("CompositeEntityAction", () => {
 

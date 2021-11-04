@@ -1,7 +1,7 @@
 import { createEntityActionTypes, CreateEntityActionTypesPayload } from "../create-entity-action-types.function";
 import { defaultCompositeEntityActionConfig, EntityActionTypes } from "../../../models";
 import { createEntityActionType } from "../create-entity-action-type.function";
-import { EntityStoreTestData } from "../../__tests__/test-data.spec";
+import { EntityStoreTestData } from "../../__tests__/test-data";
 
 describe("createEntityActionTypes", () => {
 

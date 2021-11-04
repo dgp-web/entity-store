@@ -1,7 +1,7 @@
 import { isCompositeEntityActionType } from "../is-composite-entity-action-type.function";
 import { CompositeEntityAction } from "../../../actions";
 import { Action } from "../../../models";
-import { EntityStoreTestData } from "../../__tests__/test-data.spec";
+import { EntityStoreTestData } from "../../__tests__/test-data";
 
 describe("isCompositeEntityActionType", () => {
 

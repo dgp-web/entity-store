@@ -1,5 +1,5 @@
 import { createEntityActionTypesForSuffix } from "../create-entity-action-type-for-suffix.function";
-import { EntityStoreTestData } from "../../__tests__/test-data.spec";
+import { EntityStoreTestData } from "../../__tests__/test-data";
 
 describe("createEntityActionTypesForSuffix", () => {
 

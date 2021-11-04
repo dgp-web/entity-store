@@ -1,6 +1,6 @@
 import { CompositeEntityAction } from "../../../actions";
 import { parseCompositeEntityActionType } from "../parse-composite-entity-action-type.function";
-import { EntityStoreTestData } from "../../__tests__/test-data.spec";
+import { EntityStoreTestData } from "../../__tests__/test-data";
 
 describe("parseCompositeEntityActionType", () => {
 

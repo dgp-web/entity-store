@@ -15,33 +15,23 @@
   ],
   "scripts": {
     "clean-dist": "rimraf dist/src dist/README.md",
-    "copy-assets-to-dist": "cpx README.md dist && cpx LICENSE dist",
+    "copy-assets-to-dist": "ncp README.md dist/README.md && cpx LICENSE dist/LICENSE",
     "prebuild": "npm run clean-dist && npm run copy-assets-to-dist",
     "build": "tsc --project tsconfig.dist.json",
-    "test": "karma start"
+    "test": "jest --config=jest.config.js"
   },
   "dependencies": {
     "data-modeling": "^2.0.0"
   },
   "private": true,
   "devDependencies": {
-    "@types/jasmine": "^3.3.9",
-    "awesome-typescript-loader": "^5.0.0",
-    "cpx": "^1.5.0",
-    "istanbul-instrumenter-loader": "^3.0.1",
-    "jasmine-core": "~3.5.0",
-    "js.clone": "^0.0.3",
-    "karma": "^4.0.0",
-    "karma-cli": "~2.0.0",
-    "karma-jasmine": "~3.1.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-typescript": "^4.0.0",
-    "karma-webpack": "^4.0.2",
-    "puppeteer": "^2.0.0",
+    "@types/jasmine": "^3.10.1",
+    "ncp": "^2.0.0",
+    "jest": "^26",
+    "jasmine": "^3.10.0",
     "rimraf": "^3.0.0",
-    "typescript": "^4",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.1.2"
+    "supertest": "^6.1.6",
+    "ts-jest": "^26",
+    "typescript": "^4"
   }
 }

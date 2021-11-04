@@ -1,5 +1,5 @@
 import { createCompositeEntityActionType } from "../create-composite-entity-action-type.function";
-import { EntityStoreTestData } from "../../__tests__/test-data.spec";
+import { EntityStoreTestData } from "../../__tests__/test-data";
 
 describe("createCompositeEntityActionType", () => {
 

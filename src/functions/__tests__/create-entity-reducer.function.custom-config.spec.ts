@@ -1,6 +1,6 @@
 import { Action, Entity, EntityReducer } from "../../models";
 import { CompositeEntityAction } from "../../actions";
-import { EntityStoreTestData } from "./test-data.spec";
+import { EntityStoreTestData } from "./test-data";
 import { defaultCreateEntityReducerConfig } from "../default-create-entity-reducer-config.model";
 import { EntityState } from "data-modeling";
 import { createEntityState } from "../create-entity-state.function";
