@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "clean-dist": "rimraf dist/src dist/README.md",
-    "copy-assets-to-dist": "ncp README.md dist/README.md && cpx LICENSE dist/LICENSE",
+    "copy-assets-to-dist": "ncp README.md dist/README.md && ncp LICENSE dist/LICENSE",
     "prebuild": "npm run clean-dist && npm run copy-assets-to-dist",
     "build": "tsc --project tsconfig.dist.json",
     "test": "jest --config=jest.config.js"
