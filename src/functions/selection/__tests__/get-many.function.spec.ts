@@ -1,11 +1,11 @@
 import { EntityState } from "data-modeling";
-import { getOne } from "../get-one.function";
+import { getMany } from "../get-many.function";
 
-describe("getOne", () => {
+describe("getMany", () => {
 
     const id = "1";
 
-    it("should return an entity included in an entity state.", () => {
+    it("should return entities included in an entity state.", () => {
 
         const state: EntityState<{}> = {
             ids: [id, "2"],
@@ -15,15 +15,15 @@ describe("getOne", () => {
             }
         };
 
-        const result = getOne(state, id);
+        const result = getMany(state, [id]);
 
         const expected = state.entities[id];
 
-        expect(result).toEqual(expected);
+        expect(result).toEqual([expected]);
 
     });
 
-    it("should return undefined if no entity is found.", () => {
+    it("should return an array with undefined entries if no entities are found.", () => {
 
         const state: EntityState<{}> = {
             ids: ["2"],
@@ -32,11 +32,11 @@ describe("getOne", () => {
             }
         };
 
-        const result = getOne(state, id);
+        const result = getMany(state, [id]);
 
         const expected = state.entities[id];
 
-        expect(result).toBeUndefined();
+        expect(result).toEqual([expected]);
 
     });
 
