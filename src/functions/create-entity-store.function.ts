@@ -35,6 +35,9 @@ export function createEntityStore<TEntityTypeMap extends EntityTypeMap, TStoreFe
         const entitySelectors = createEntitySelectors({entityType});
 
         if (payload?.config?.selectors.fromRoot && payload.storeFeature) {
+            if (!(selectors as any)[payload.storeFeature]) {
+                (selectors as any)[payload.storeFeature] = {};
+            }
             (selectors as any)[payload.storeFeature][entityType] = entitySelectors;
         } else {
             selectors[entityType] = entitySelectors as any;
