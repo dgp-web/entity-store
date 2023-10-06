@@ -17,13 +17,28 @@ import { createEntitySelectors } from "./create-entity-selectors.function";
 export function createEntityStore<TEntityTypeMap extends EntityTypeMap, TStoreFeature = string>(payload: {
     readonly entityTypes: ReadonlyArray<keyof TEntityTypeMap>;
     readonly storeFeature?: TStoreFeature;
-    readonly metadata?: EntityMetadataMap<TEntityTypeMap>
+    readonly metadata?: EntityMetadataMap<TEntityTypeMap>;
+
+    readonly config?: {
+        readonly selectors?: {
+            /**
+             * Selectors are created from root and prefixed with "storeFeature" if it is set
+             */
+            readonly fromRoot?: boolean;
+        };
+    };
 }): EntityStore<TEntityTypeMap, TStoreFeature> {
 
     const selectors: EntitySelectorMap<TEntityTypeMap> = {} as any;
 
     payload.entityTypes.forEach(entityType => {
-        selectors[entityType] = createEntitySelectors({entityType});
+        const entitySelectors = createEntitySelectors({entityType});
+
+        if (payload?.config?.selectors.fromRoot && payload.storeFeature) {
+            (selectors as any)[payload.storeFeature][entityType] = entitySelectors;
+        } else {
+            selectors[entityType] = entitySelectors as any;
+        }
     });
 
     return {
