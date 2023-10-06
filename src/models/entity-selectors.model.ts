@@ -7,4 +7,6 @@ export interface EntitySelectors<TEntityTypeMap extends EntityTypeMap, TModel> {
     readonly getAll: Selector<EntityStateMap<TEntityTypeMap>, Many<TModel>>;
     readonly getFirstSelected: Selector<EntityStateMap<TEntityTypeMap>, TModel>;
     readonly isEntitySelected: Selector<EntityStateMap<TEntityTypeMap>, boolean>;
+    readonly getOne: (id: string) => Selector<EntityStateMap<TEntityTypeMap>, TModel>;
+    readonly getMany: (ids: Many<string>) => Selector<EntityStateMap<TEntityTypeMap>, Many<TModel>>;
 }

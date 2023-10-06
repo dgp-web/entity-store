@@ -33,3 +33,5 @@ export {
     EntityState,
     EntityStateMap
 } from "data-modeling";
+export { getOne } from "./functions";
+export { getMany } from "./functions";

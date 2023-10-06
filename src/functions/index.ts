@@ -9,3 +9,5 @@ export * from "./default-create-entity-reducer-config.model";
 export * from "./action-types";
 export * from "./selection";
 export * from "./state-transformation";
+export { getOne } from "./selection";
+export { getMany } from "./selection";
