@@ -5,6 +5,78 @@ entity-store is a modest library for defining and manipulating application state
 that are composed of entity collections.
 It comes without dependencies, is field-tested, and not biased towards a particular framework.  
 
+```typescript
+import { createEntityStore } from "entityStore";
+
+/**
+ * 1) Define models and register them in a dedicated interface
+ * such as "Entities" below
+ */
+
+export interface User {
+    userId: string;
+    label: string;
+}
+
+export interface Location {
+    locationId: string;
+    name: string;
+}
+
+export interface Entities {
+    user: User;
+    location: Location;
+}
+
+/**
+ * 2) Create an entity store object and store it in a constant
+ */
+
+export const appEntityStore = createEntityStore<Entities>({
+    /**
+     * An entity state is created for each entity.
+     * Only keys of the provided EntityTypeMap are allowed.
+     */
+    entities: [
+        "user",
+        "location"
+    ]
+});
+
+/**
+ * 3) Register the reducers provided by the created entity store
+ */
+
+const appReducer = {
+    // ... other reducers
+    ...appEntityStore.reducers
+};
+
+/**
+ * 4) Leverage actions and selectors provided by the created entity store
+ */
+
+const action = appEntityStore.actions.composeEntityAction({
+    add: {
+        user:  {
+            "user01Id":  {
+                userId: "user01Id",
+                label: "Jason"
+             }
+        }
+    },
+    update: {
+        location: {
+            "location01Id": {
+                name: "Home"
+            }
+        }
+    }
+});
+
+const selector = appEntityStore.selectors.user.getAll;
+```
+
 ```javascript
 import { CompositeEntityAction, createEntityState, createEntityReducer } from "entity-store";
 
