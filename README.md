@@ -2,14 +2,14 @@
 Dynamic actions and reducers for collection-based application states 
 
 entity-store is a modest library for defining and transactionally manipulating application states 
-that are (partly) composed of entity collections - with minimal code and effort.
+that are (partly) composed of typed entity collections - with minimal effort, optimal performance, and high scaling potential.
 It comes with minimal dependencies, is field-tested, and not biased towards a particular framework.  
 
 ```typescript
 import { createEntityStore, EntityStateMap } from "entity-store";
 /**
- * NOTE: This is an example using NGRX from Angular but "entity-store" is not
- * biased towards a redux implementation.
+ * NOTE: This example uses NGRX from the Angular ecosystem but "entity-store" is not
+ * biased towards a particular redux implementation.
  */
 import { ActionReducerMap } from "@ngrx/store";
 
@@ -34,7 +34,7 @@ export interface Entities {
 }
 
 /**
- * 2) Create an entity store object and store it in a constant
+ * 2) Create an entity store and put it in a constant
  */
 
 export const appEntityStore = createEntityStore<Entities>({
@@ -96,7 +96,7 @@ Install the package via npm
 npm install --save entity-store
 ```
 
-Store some entities! The following _Quick reference_ and the included TypeScript definitions show you how.
+Store some entities! The introductory example, the following _Quick reference_ and the included TypeScript definitions show you how.
 
 ## Quick reference
 
@@ -121,7 +121,7 @@ It is an instruction to add an entity of type "User" with the label "Jason"
 and id "user01Id" to our state and to update the population of the "Location" with id "location01Id" 
 with the name "Home".
 
-```javascript
+```typescript
 import { appEntityStore } from "./app-entity-store.ts";
 
 export const action = appEntityStore.actions.composeEntityAction({
@@ -156,6 +156,7 @@ selecting data from state easier.
 ### createKVSFromArray ###
 Add, Update, and Set operations in a CompositeEntityAction want a key-value store as 
 payload, so it is often necessary to map data from an array into this form.
+
 ```javascript
 import { createKVSFromArray } from "entity-store";
 
@@ -174,7 +175,8 @@ By default, ```createKVSFromArray``` assumes that the passed items have an attri
 'id'. You can pass a different attribute name if your id is stored in a different member.
 
 *Note: TypeScript users might want to use ```keyof``` here.*
-```javascript
+
+```typescript
 import { createKVSFromArray, User } from "entity-store";
 
 const users = [{
@@ -261,7 +263,19 @@ const selectedUser = getFirstSelected(userState);
 
 ```
 
+## Best practices ##
+
+TBD
+- use entity store for manageing your cache, don't write reducers for CRUD logic
+- don't use the actions for triggering effects
+- alias actions and selectors
+- keep most of your entities in a central global application state
+
 ## Advanced features ##
+
+### Manageing selections ###
+
+TBD
 
 ### Working with store features ###
 It can be convenient to isolate regions in your store that are independent
@@ -272,7 +286,7 @@ TBD
 
 ### Configuring action-type composition ###
 If you are not happy with how the dynamic action types are created, you can create your own
-```CompositeEntityActionConfig``` and pass it to ```createEntityReducer``` and ```CompositeEntityAction```.
+```CompositeEntityActionConfig``` and pass it to ```createEntityStore```.
 
 TODO: Adjust to createEntityStore syntax
 
