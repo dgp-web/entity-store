@@ -1,12 +1,17 @@
 # entity-store
 Dynamic actions and reducers for collection-based application states 
 
-entity-store is a modest library for defining and manipulating application states 
-that are composed of entity collections.
-It comes without dependencies, is field-tested, and not biased towards a particular framework.  
+entity-store is a modest library for defining and transactionally manipulating application states 
+that are (partly) composed of entity collections - with minimal code and effort.
+It comes with minimal dependencies, is field-tested, and not biased towards a particular framework.  
 
 ```typescript
-import { createEntityStore } from "entityStore";
+import { createEntityStore, EntityStateMap } from "entity-store";
+/**
+ * NOTE: This is an example using NGRX from Angular but "entity-store" is not
+ * biased towards a redux implementation.
+ */
+import { ActionReducerMap } from "@ngrx/store";
 
 /**
  * 1) Define models and register them in a dedicated interface
@@ -44,19 +49,27 @@ export const appEntityStore = createEntityStore<Entities>({
 });
 
 /**
- * 3) Register the reducers provided by the created entity store
+ * 3) Extend your AppState definition with your entities
  */
 
-const appReducer = {
+export interface AppState extends EntityStateMap<Entities> {
+    // ... other state entries
+}
+
+/**
+ * 4) Register the reducers provided by the created entity store
+ */
+
+export const appReducer: ActionReducerMap<AppState> = {
     // ... other reducers
     ...appEntityStore.reducers
 };
 
 /**
- * 4) Leverage actions and selectors provided by the created entity store
+ * 5) Leverage actions and selectors provided by the created entity store
  */
 
-const action = appEntityStore.actions.composeEntityAction({
+export const action = appEntityStore.actions.composeEntityAction({
     add: {
         user:  {
             "user01Id":  {
@@ -74,31 +87,7 @@ const action = appEntityStore.actions.composeEntityAction({
     }
 });
 
-const selector = appEntityStore.selectors.user.getAll;
-```
-
-```javascript
-import { CompositeEntityAction, createEntityState, createEntityReducer } from "entity-store";
-
-// 1) Define an entity with an initial state and a dedicated reducer
-const userType = "User";      
-const initialUsersState = createEntityState();  
-const usersReducer = createEntityReducer({
-    entityType: userType, initialUsersState
-}); 
-
- // 2) Update the state with dynamic actions
-const action = new CompositeEntityAction({                             
-    set: [{
-        entityType: userType,
-        payload: {
-            "user01": {
-                label: "Jason"
-            }
-        }
-    }]
-});
-const updatedState = usersReducer(initialUsersState, action);
+export const selector = appEntityStore.selectors.user.getAll;
 ```
 
 ## Getting started
@@ -110,26 +99,6 @@ npm install --save entity-store
 Store some entities! The following _Quick reference_ and the included TypeScript definitions show you how.
 
 ## Quick reference
-
-### Defining entity states with interfaces
-
-_Note: You can skip this section if you're not using TypeScript._
-
-Use the _EntityState_ interface to declare states for each entity type you would 
-like to manage in your store.
-
-```typescript
-import { EntityState } from "entity-store";
-
-export interface User {
-    label: string;
-}
-
-export interface AppState {
-    users: EntityState<User>;
-}
-
-```
 
 ### Modifying states with CompositeEntityAction
 
@@ -147,23 +116,30 @@ Convenience
 
 CompositeEntityActions are composed of these operations.
 
-The following example shows how to construct such an action. 
+The example at the beginning shows how to construct such an action. 
 It is an instruction to add an entity of type "User" with the label "Jason" 
-and id "user01" to our state and to update the population of the "Location" with id "location01" 
-with the value 20001.
+and id "user01Id" to our state and to update the population of the "Location" with id "location01Id" 
+with the name "Home".
 
 ```javascript
-import { CompositeEntityAction } from "entity-store";
+import { appEntityStore } from "./app-entity-store.ts";
 
-const action = new CompositeEntityAction({
-    add: [{
-        entityType: "User",
-        payload: { "user01": { id: "user01", label: "Jason" } }
-    }],
-    update: [{
-         entityType: "Location",
-         payload: { "location01": { population: 20001 } }
-    }]
+export const action = appEntityStore.actions.composeEntityAction({
+    add: {
+        user:  {
+            "user01Id":  {
+                userId: "user01Id",
+                label: "Jason"
+             }
+        }
+    },
+    update: {
+        location: {
+            "location01Id": {
+                name: "Home"
+            }
+        }
+    }
 });
 
 ```
@@ -171,22 +147,6 @@ const action = new CompositeEntityAction({
 Types for those actions are created dynamically for each combination of operation,
 entity, and (optional) store feature. For the above action the result would be
 _\[Composite] \[User] Add \[Location] Update'_. 
-
-### Processing entity actions with matching reducers
-
-Entity reducers execute the operations described by those actions. 
-
-They are really easy to set up.
-Just provide an entity type to createEntityReducer.
-
-```javascript
-import { createEntityReducer } from "entity-store";
-
-const userReducer = createEntityReducer({
-    entityType: "User"
-});
-
-```
 
 ## Utilities ##
 
@@ -306,29 +266,15 @@ const selectedUser = getFirstSelected(userState);
 ### Working with store features ###
 It can be convenient to isolate regions in your store that are independent
 from your main state. Those special store *features* can be used by setting the storeFeature 
-option when using ```createEntityReducer``` and ```CompositeEntityAction```.
+option when using ```createEntityStore```.
 
-```javascript
-import { createEntityReducer, CompositeEntityAction } from "entity-store";
-
-const userReducer = createEntityReducer({
-    entityType: "User",
-    storeFeature: "UserManagement"
-});
-
-const action = new CompositeEntityAction({
-    add: [{
-        entityType: "User",
-        payload: { "user01": { id: "user01", label: "Jason" } },
-        storeFeature: "UserManagement"
-    }]
-});
-
-```
+TBD
 
 ### Configuring action-type composition ###
 If you are not happy with how the dynamic action types are created, you can create your own
 ```CompositeEntityActionConfig``` and pass it to ```createEntityReducer``` and ```CompositeEntityAction```.
+
+TODO: Adjust to createEntityStore syntax
 
 ```typescript
 import { 
